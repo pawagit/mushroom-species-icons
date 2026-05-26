@@ -1,0 +1,61 @@
+// Species metadata + filesize report.
+// Filesizes come from the actual files on disk (computed once via run_script).
+
+window.SPECIES = [
+  { id: "agaricus-arvensis",          file: "agaricus arvensis.svg",          latin: "Agaricus arvensis",          de: "Schaf-Champignon",         en: "Horse mushroom" },
+  { id: "amanita-muscaria",           file: "amanita muscaria.svg",           latin: "Amanita muscaria",           de: "Fliegenpilz",              en: "Fly agaric" },
+  { id: "boletus-edulis",             file: "boletus edulis.svg",             latin: "Boletus edulis",             de: "Steinpilz",                en: "Porcini" },
+  { id: "calocybe-gambosa",           file: "calocybe gambosa.svg",           latin: "Calocybe gambosa",           de: "Maipilz",                  en: "St. George's mushroom" },
+  { id: "calvatia-gigantea",          file: "calvatia gigantea.svg",          latin: "Calvatia gigantea",          de: "Riesenbovist",             en: "Giant puffball" },
+  { id: "cantharellus-cibarius",      file: "cantharellus cibarius.svg",      latin: "Cantharellus cibarius",      de: "Pfifferling",              en: "Chanterelle" },
+  { id: "cantharellus-cornucopoides", file: "cantharellus cornucopoides.svg", latin: "Craterellus cornucopioides", de: "Totentrompete",            en: "Black trumpet" },
+  { id: "cantharellus-lutescens",     file: "cantharellus lutescens.svg",     latin: "Cantharellus lutescens",     de: "Starkriech. Pfifferling",  en: "Golden chanterelle" },
+  { id: "cantharellus-tubaeformis",   file: "cantharellus tubaeformis.svg",   latin: "Cantharellus tubaeformis",   de: "Trompetenpfifferling",     en: "Yellow-foot" },
+  { id: "clitopilus-prunulus",        file: "clitopilus prunulus.svg",        latin: "Clitopilus prunulus",        de: "Mehlräsling",               en: "The miller" },
+  { id: "coprinus-comatus",           file: "coprinus comatus.svg",           latin: "Coprinus comatus",           de: "Schopftintling",           en: "Shaggy ink cap" },
+  { id: "hydnum-repandum",            file: "hydnum repandum.svg",            latin: "Hydnum repandum",            de: "Semmelstoppelpilz",        en: "Hedgehog" },
+  { id: "imleria-badia",              file: "imleria badia.svg",              latin: "Imleria badia",              de: "Maronen-Röhrling",         en: "Bay bolete" },
+  { id: "kuehneromyces-mutabilis",    file: "kuehneromyces mutabilis.svg",    latin: "Kuehneromyces mutabilis",    de: "Stockschwämmchen",          en: "Sheathed woodtuft" },
+  { id: "lactarius-deliciosus",       file: "lactarius deliciosus.svg",       latin: "Lactarius deliciosus",       de: "Edel-Reizker",             en: "Saffron milkcap" },
+  { id: "leccinum-aurantiacum",       file: "leccinum aurantiacum.svg",       latin: "Leccinum aurantiacum",       de: "Rotkappe",                 en: "Orange birch bolete" },
+  { id: "lycoperdon-perlatum",        file: "lycoperdon perlatum.svg",        latin: "Lycoperdon perlatum",        de: "Flaschenbovist",           en: "Common puffball" },
+  { id: "macrolepiota-procera",       file: "macrolepiota procera.svg",       latin: "Macrolepiota procera",       de: "Riesenschirmpilz",         en: "Parasol" },
+  { id: "morchella-elata",            file: "morchella elata.svg",            latin: "Morchella elata",            de: "Spitzmorchel",             en: "Black morel" },
+  { id: "morchella-esculenta",        file: "morchella esculenta.svg",        latin: "Morchella esculenta",        de: "Speisemorchel",            en: "Common morel" },
+  { id: "neoboletus-luridiformis",    file: "neoboletus luridiformis.svg",    latin: "Neoboletus luridiformis",    de: "Flockenst. Hexenröhrling", en: "Scarletina bolete" },
+  { id: "psilocybe-semilanceata",     file: "psilocybe semilanceata.svg",     latin: "Psilocybe semilanceata",     de: "Spitzkegel. Kahlkopf",     en: "Liberty cap" },
+  { id: "russula",                    file: "russula.svg",                    latin: "Russula spp.",               de: "Täubling",                 en: "Brittlegill" },
+  { id: "sarcodon-imbricatus",        file: "sarcodon imbricatus.svg",        latin: "Sarcodon imbricatus",        de: "Habichtspilz",             en: "Shingled hedgehog" },
+  { id: "sparassis-crispa",           file: "sparassis crispa.svg",           latin: "Sparassis crispa",           de: "Krause Glucke",            en: "Cauliflower fungus" },
+];
+
+// Sizes in bytes — measured on disk after simplification.
+window.SIZES = {
+  "sparassis crispa.svg":           { orig: 321464, simp: 125686, sq:  86300, uo: 309220 },
+  "lycoperdon perlatum.svg":        { orig: 301113, simp: 108366, sq:  76117, uo: 278936 },
+  "lactarius deliciosus.svg":       { orig: 245668, simp:  97760, sq:  68179, uo: 239418 },
+  "morchella elata.svg":            { orig: 212888, simp:  84922, sq:  58928, uo: 207741 },
+  "morchella esculenta.svg":        { orig: 198078, simp:  77979, sq:  54214, uo: 192489 },
+  "kuehneromyces mutabilis.svg":    { orig: 165600, simp:  54708, sq:  38242, uo: 151266 },
+  "cantharellus lutescens.svg":     { orig: 157462, simp:  60251, sq:  41552, uo: 147714 },
+  "agaricus arvensis.svg":          { orig: 139655, simp:  56945, sq:  39270, uo: 136061 },
+  "macrolepiota procera.svg":       { orig: 125128, simp:  46327, sq:  32012, uo: 117219 },
+  "sarcodon imbricatus.svg":        { orig: 103718, simp:  43890, sq:  30696, uo: 102213 },
+  "cantharellus cibarius.svg":      { orig:  88704, simp:  36201, sq:  24853, uo:  85013 },
+  "calvatia gigantea.svg":          { orig:  86000, simp:  28960, sq:  20122, uo:  74839 },
+  "cantharellus tubaeformis.svg":   { orig:  79320, simp:  26650, sq:  18457, uo:  68967 },
+  "amanita muscaria.svg":           { orig:  77188, simp:  29577, sq:  20608, uo:  73260 },
+  "coprinus comatus.svg":           { orig:  75085, simp:  27136, sq:  18933, uo:  68544 },
+  "russula.svg":                    { orig:  56475, simp:  21075, sq:  14567, uo:  53049 },
+  "cantharellus cornucopoides.svg": { orig:  51385, simp:  18655, sq:  12832, uo:  46041 },
+  "clitopilus prunulus.svg":        { orig:  46292, simp:  17365, sq:  12085, uo:  43462 },
+  "leccinum aurantiacum.svg":       { orig:  37760, simp:  13930, sq:   9528, uo:  34615 },
+  "psilocybe semilanceata.svg":     { orig:  34457, simp:  11237, sq:   7731, uo:  29798 },
+  "hydnum repandum.svg":            { orig:  27375, simp:   8274, sq:   5690, uo:  22399 },
+  "neoboletus luridiformis.svg":    { orig:  16347, simp:   5393, sq:   3717, uo:  14431 },
+  "boletus edulis.svg":             { orig:  13956, simp:   4192, sq:   2869, uo:  11350 },
+  "calocybe gambosa.svg":           { orig:  10838, simp:   3191, sq:   2153, uo:   8616 },
+  "imleria badia.svg":              { orig:  10395, simp:   2981, sq:   2051, uo:   8101 },
+};
+
+window.fmtKB = (b) => (b/1024).toFixed(1) + " KB";

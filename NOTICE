@@ -1,0 +1,86 @@
+Mushroom species icons
+Copyright (c) pawa
+https://github.com/pawagit/mushroom-species-icons
+
+================================================================
+What this NOTICE covers
+================================================================
+
+The LICENSE file (CC BY 4.0) applies to the SVG icon artwork in
+this repository, namely the files under:
+
+    icons/originals/
+    icons/simplified/
+    icons/unified/
+    icons/squeezed/
+    icons/unified-original/
+
+and any future SVG icon files added to those directories.
+
+These are the works offered for reuse.
+
+================================================================
+What this NOTICE does NOT cover
+================================================================
+
+The CC BY 4.0 grant does NOT extend to:
+
+  - The HTML pages at the repository root
+    ("Icons - *.html"), including their layout, copy,
+    and presentation.
+  - The supporting JavaScript and CSS used by those pages
+    (e.g. icons/species-data.js, icons/sheets.css,
+    icons/MapPin.jsx, icons/species.jsx).
+  - The README and other prose documentation.
+  - Any photographs the icons were path-traced from
+    (those remain the property of their original
+    photographers and are not redistributed here).
+
+These pieces are published for transparency and to let you see
+how the icon set is produced, but they are not licensed for
+reuse under CC BY 4.0. If you want to reuse any of them, ask.
+
+If in doubt: the .svg files in the directories listed above
+are CC BY 4.0; nothing else in the repo is.
+
+================================================================
+Attribution
+================================================================
+
+CC BY 4.0 requires attribution. I'm not strict about the exact
+wording — the spirit is what matters:
+
+  1. Credit "pawa" (or "pawa / pawagit") as the author.
+  2. Link back to the source repository:
+     https://github.com/pawagit/mushroom-species-icons
+  3. Indicate the license (the string "CC BY 4.0" is enough;
+     a link to https://creativecommons.org/licenses/by/4.0/
+     is even better).
+  4. If you modified the icons, say so briefly
+     (e.g. "recoloured", "simplified further", "cropped").
+
+Examples of attributions that work:
+
+  - In a credits page or about screen:
+
+      Mushroom icons by pawa, CC BY 4.0
+      https://github.com/pawagit/mushroom-species-icons
+
+  - Inline on a map or figure caption:
+
+      Icons: pawa (CC BY 4.0)
+
+  - In a README or docs file:
+
+      Mushroom species icons are by pawa and used under
+      CC BY 4.0. Source:
+      https://github.com/pawagit/mushroom-species-icons
+
+Attribution does not need to be on every page or next to every
+icon — a single visible credit (credits page, footer, about
+dialog, README, etc.) for the project that uses the icons is
+fine.
+
+If the medium genuinely can't carry an attribution (e.g. an
+embroidered patch), do your best in whatever accompanying
+material exists, or get in touch.

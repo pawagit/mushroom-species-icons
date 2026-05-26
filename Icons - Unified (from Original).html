@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Unified mushroom icons (from original) — 1000×1000 square set</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="icons/sheets.css"/>
+  <style>
+    .toolbar {
+      display: flex;
+      gap: 18px;
+      padding: 14px 48px;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: #F8F5EE;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .toolbar a { color: var(--ink-2); text-decoration: none; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg-card); }
+    .toolbar a.active { background: var(--ink); color: #F4F1EB; border-color: var(--ink); }
+    .toolbar a:hover { border-color: var(--ink); }
+
+    section.block { padding: 32px 48px; border-bottom: 1px solid var(--rule); }
+    section.block > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 18px; font-family: var(--mono); }
+
+    /* The framed canvas — square border + crosshair guides so we can eyeball centering */
+    .frame-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 22px; }
+    .frame {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--rule);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .frame .canvas {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: #E8DEC4;
+      margin: 14px;
+      box-sizing: border-box;
+      border: 1.5px solid #1F1A14;
+    }
+    .frame .canvas::before, .frame .canvas::after {
+      content: "";
+      position: absolute;
+      background: rgba(31,26,20,0.16);
+      pointer-events: none;
+    }
+    .frame .canvas::before { left: 50%; top: 6%; bottom: 6%; width: 1px; }
+    .frame .canvas::after { top: 50%; left: 6%; right: 6%; height: 1px; }
+    .frame .canvas img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .frame .meta { padding: 4px 14px 14px; }
+    .frame .meta .latin { font-size: 13px; line-height: 1.25; }
+    .frame .meta .common { font-size: 10.5px; }
+    .frame .meta .row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 6px; font-family: var(--mono); font-size: 10px; color: var(--ink-3);
+    }
+    .frame .meta .row .vb { background: #EFE9DA; padding: 2px 6px; border-radius: 4px; }
+
+    /* Toggle */
+    .toggle-bar { display: flex; align-items: center; gap: 14px; padding: 16px 48px; background: var(--bg-card); border-bottom: 1px solid var(--rule); font-size: 12px; color: var(--ink-3); font-family: var(--mono); }
+    .toggle-bar label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule); background: #FBF9F3; }
+    .toggle-bar label:hover { border-color: var(--ink-3); }
+    .toggle-bar input { cursor: pointer; }
+    body.no-frame .frame .canvas { border-color: transparent; }
+    body.no-frame .frame .canvas::before, body.no-frame .frame .canvas::after { display: none; }
+    body.no-grid .frame .canvas::before, body.no-grid .frame .canvas::after { display: none; }
+    body.bg-flat .frame .canvas { background: #F8F5EE; }
+
+    /* Stacked alignment overlay: all icons on top of each other at low opacity */
+    .overlay-block { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 32px; padding: 32px 48px; border-bottom: 1px solid var(--rule); }
+    .overlay-block .text { padding-top: 12px; }
+    .overlay-block .text h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 12px; font-family: var(--mono); }
+    .overlay-block .text p { color: var(--ink-2); font-size: 13px; line-height: 1.55; margin: 8px 0; max-width: 380px; }
+    .overlay-block .stack {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      max-width: 560px;
+      width: 100%;
+      background: #E8DEC4;
+      border: 1.5px solid #1F1A14;
+      border-radius: 4px;
+      margin: 0 auto;
+    }
+    .overlay-block .stack::before, .overlay-block .stack::after {
+      content: ""; position: absolute; background: rgba(31,26,20,0.22); pointer-events: none;
+    }
+    .overlay-block .stack::before { left: 50%; top: 5%; bottom: 5%; width: 1px; }
+    .overlay-block .stack::after { top: 50%; left: 5%; right: 5%; height: 1px; }
+    .overlay-block .stack img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; opacity: 0.18; }
+
+    /* Pin row */
+    .pin-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 16px;
+      padding: 28px 24px;
+      border-radius: 10px;
+      background: var(--bg-map-figured);
+    }
+    .pin-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .pin-cell .lab { text-align: center; line-height: 1.25; max-width: 110px; }
+
+    /* Tiny scale check — all icons at same target px shown next to each other */
+    .scale-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 14px; padding: 22px 24px; background: var(--bg-card); border-radius: 10px; border: 1px solid var(--rule); }
+    .scale-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .scale-cell .box { width: 64px; height: 64px; background: #E8DEC4; border: 1px solid var(--ink); display: flex; align-items: center; justify-content: center; }
+    .scale-cell .box img { width: 100%; height: 100%; object-fit: contain; }
+    .scale-cell .lab { text-align: center; font-size: 9px; line-height: 1.2; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="lab">Sheets:</span>
+    <a href="Icons - Original.html">A · Originals</a>
+    <a href="Icons - Simplified.html">B · Simplified</a>
+    <a href="Icons - Comparison.html">C · Comparison</a>
+    <a href="Icons - Unified.html">D · Unified (simplified)</a>
+    <a href="Icons - Squeezed.html">E · Squeezed</a>
+    <a href="Icons - Unified (from Original).html" class="active">F · Unified (from original)</a>
+    <a href="Icons - Pipeline.html">★ Pipeline</a>
+  </div>
+
+  <header class="sheet-header">
+    <div class="kicker">Sheet F · Same canvas, every species · rich source</div>
+    <h1>Unified icons (from original) · 1000 × 1000 square</h1>
+    <p>
+      Same unification recipe as Sheet&nbsp;D, but built from the <i>original</i> SVGs instead of
+      the simplified set. The thin seam-stroke layer between filled regions is preserved (more
+      visual depth at hero size) and the in-between white backgrounds are stripped — including
+      the ones between <i>C. tubaeformis</i>'s trumpets and on <i>A. muscaria</i>'s cap.
+      Otherwise identical: content bbox computed from path geometry, scaled and translated into a
+      1000 × 1000 canvas with a 5 % safe margin.
+    </p>
+    <div class="pills">
+      <span class="pill dot" id="pillCount"></span>
+      <span class="pill dot">viewBox 1000×1000</span>
+      <span class="pill dot">5 % safe margin</span>
+      <span class="pill dot">seam strokes preserved</span>
+      <span class="pill bad" id="pillTotalUO"></span>
+    </div>
+  </header>
+
+  <div class="toggle-bar">
+    <span>Show:</span>
+    <label><input type="checkbox" id="t-frame" checked> square border</label>
+    <label><input type="checkbox" id="t-grid" checked> centre crosshair</label>
+    <label><input type="checkbox" id="t-bg"> flat cream (no sand)</label>
+  </div>
+
+  <section class="block">
+    <h2>Each icon inside a 1000-unit square · centring check</h2>
+    <div class="frame-grid" id="frameGrid"></div>
+  </section>
+
+  <section class="overlay-block">
+    <div class="text">
+      <h2>Alignment overlay</h2>
+      <p>
+        All 19 unified icons stacked on the same square at 18 % opacity, multiplied. Tall species
+        like <i>Coprinus comatus</i> and <i>Psilocybe semilanceata</i> use the vertical extent;
+        wide species like <i>Calvatia gigantea</i> and <i>Sparassis crispa</i> reach the horizontal edges.
+        Drift from centre would show as one-sided density — none should be visible.
+      </p>
+      <p style="font-family: var(--mono); font-size: 11.5px; color: var(--ink-3);">
+        canvas: 1000 × 1000 · safe area: 900 × 900 (5 % margin)
+      </p>
+    </div>
+    <div class="stack" id="stack"></div>
+  </section>
+
+  <section class="block">
+    <h2>Same target pixel size · scale parity check</h2>
+    <p style="color: var(--ink-2); font-size: 13px; margin: -8px 0 16px;">
+      Every icon is rendered into a 64×64 box. Because they share a viewBox they should all look
+      roughly the same visual weight — no species should appear larger or smaller than its neighbours.
+    </p>
+    <div class="scale-row" id="scaleRow"></div>
+  </section>
+
+  <section class="block">
+    <h2>Inside a teardrop marker · 56 px pin</h2>
+    <div class="pin-row" id="pinRow"></div>
+  </section>
+
+  <script src="icons/species-data.js"></script>
+  <script>
+    const root = (p) => "icons/unified-original/" + encodeURIComponent(p);
+
+    // Frame grid
+    const frameGrid = document.getElementById('frameGrid');
+    const sizesO = Object.fromEntries(SPECIES.map(s => [s.file, SIZES[s.file].uo]));
+    // Total for the F-set pill
+    const totalUO = SPECIES.reduce((a, s) => a + SIZES[s.file].uo, 0);
+    document.getElementById('pillCount').textContent = SPECIES.length + ' icons';
+    document.getElementById('pillTotalUO').textContent = 'Σ ' + (totalUO/1024/1024).toFixed(2) + ' MB';
+    SPECIES.forEach(s => {
+      const sz = sizesO[s.file];
+      frameGrid.insertAdjacentHTML('beforeend', `
+        <div class="frame">
+          <div class="canvas">
+            <img src="${root(s.file)}" alt="${s.latin}">
+          </div>
+          <div class="meta">
+            <div class="latin">${s.latin}</div>
+            <div class="common">${s.de} · ${s.en}</div>
+            <div class="row">
+              <span class="vb">1000 × 1000</span>
+              <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);">${(sz/1024).toFixed(1)} KB</span>
+            </div>
+          </div>
+        </div>
+      `);
+    });
+
+    // Alignment overlay — stack all 19 at 18% opacity
+    const stack = document.getElementById('stack');
+    SPECIES.forEach(s => {
+      stack.insertAdjacentHTML('beforeend', `<img src="${root(s.file)}" alt="">`);
+    });
+
+    // Scale parity grid
+    const scaleRow = document.getElementById('scaleRow');
+    SPECIES.forEach(s => {
+      scaleRow.insertAdjacentHTML('beforeend', `
+        <div class="scale-cell">
+          <div class="box"><img src="${root(s.file)}" alt="${s.latin}"></div>
+          <div class="lab">${s.latin.split(' ').map(w => `<div>${w}</div>`).join('')}</div>
+        </div>
+      `);
+    });
+
+    // Pin row
+    const pinRow = document.getElementById('pinRow');
+    SPECIES.forEach(s => {
+      const size = 56;
+      pinRow.insertAdjacentHTML('beforeend', `
+        <div class="pin-cell">
+          <div class="pin" style="width:${size}px;height:${size*1.25}px;">
+            <svg class="pin-shape" viewBox="0 0 64 80" width="${size}" height="${size*1.25}">
+              <path d="M32 1 C15 1 2 14 2 31 C2 48 22 64 32 79 C42 64 62 48 62 31 C62 14 49 1 32 1 Z" fill="#FFFFFF" stroke="#1F1A14" stroke-width="2"/>
+            </svg>
+            <div class="pin-icon" style="width:${size*0.62}px;height:${size*0.62}px;">
+              <img src="${root(s.file)}" style="width:100%;height:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="lab">${s.latin.split(' ').map(w => `<div>${w}</div>`).join('')}</div>
+        </div>
+      `);
+    });
+
+    // Toggles
+    const tFrame = document.getElementById('t-frame');
+    const tGrid  = document.getElementById('t-grid');
+    const tBg    = document.getElementById('t-bg');
+    const sync = () => {
+      document.body.classList.toggle('no-frame', !tFrame.checked);
+      document.body.classList.toggle('no-grid', !tGrid.checked);
+      document.body.classList.toggle('bg-flat', tBg.checked);
+    };
+    tFrame.addEventListener('change', sync);
+    tGrid.addEventListener('change', sync);
+    tBg.addEventListener('change', sync);
+    sync();
+  </script>
+</body>
+</html>

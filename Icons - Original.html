@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Original mushroom icons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="icons/sheets.css"/>
+  <style>
+    .toolbar {
+      display: flex;
+      gap: 18px;
+      padding: 14px 48px;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: #F8F5EE;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .toolbar a { color: var(--ink-2); text-decoration: none; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg-card); }
+    .toolbar a.active { background: var(--ink); color: #F4F1EB; border-color: var(--ink); }
+    .toolbar a:hover { border-color: var(--ink); }
+
+    section.block { padding: 32px 48px; border-bottom: 1px solid var(--rule); }
+    section.block > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 18px; font-family: var(--mono); }
+
+    /* Overview gallery — icons at hero size */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .tile { border-radius: 10px; overflow: hidden; border: 1px solid var(--rule); background: var(--bg-card); display: flex; flex-direction: column; }
+    .tile .hero { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; padding: 14px; background: #E8DEC4; }
+    .tile .hero img { width: 100%; height: 100%; object-fit: contain; }
+    .tile .meta { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--rule); }
+    .tile .meta .latin { font-size: 12.5px; line-height: 1.3; }
+    .tile .meta .common { font-size: 10.5px; }
+    .tile .meta .size { font-family: var(--mono); font-size: 10px; color: var(--ink-3); margin-top: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .tile .meta .size .px { background: #EFE9DA; padding: 2px 6px; border-radius: 4px; }
+
+    /* Pin row */
+    .pin-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 16px;
+      padding: 28px 24px;
+      border-radius: 10px;
+      background: var(--bg-map-figured);
+    }
+    .pin-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .pin-cell .lab { text-align: center; line-height: 1.25; max-width: 110px; }
+
+    /* Size ramp */
+    .ramp-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+    .ramp { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 18px; }
+    .ramp .name { font-style: italic; font-size: 12.5px; margin-bottom: 10px; }
+    .ramp .row { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+    .ramp .step { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .ramp .step img { display: block; object-fit: contain; }
+    .ramp .step .lab { font-size: 9px; }
+
+    /* Filesize table */
+    table.sizes { width: 100%; border-collapse: collapse; font-size: 13px; }
+    table.sizes th, table.sizes td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--rule); }
+    table.sizes th { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; background: var(--bg-card); position: sticky; top: 0; }
+    table.sizes td.num { font-family: var(--mono); text-align: right; white-space: nowrap; }
+    table.sizes td .latin { font-size: 13px; }
+    table.sizes tbody tr:hover { background: var(--bg-card); }
+    .bar-cell { width: 240px; }
+    .bar { height: 8px; background: #EFE9DA; border-radius: 4px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--accent); }
+    .totals td { font-weight: 600; background: #F0EBDD; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="lab">Sheets:</span>
+    <a href="Icons - Original.html" class="active">A · Originals</a>
+    <a href="Icons - Simplified.html">B · Simplified</a>
+    <a href="Icons - Comparison.html">C · Comparison</a>
+    <a href="Icons - Unified.html">D · Unified</a>
+    <a href="Icons - Squeezed.html">E · Squeezed</a>
+    <a href="Icons - Unified (from Original).html">F · Unified (from original)</a>
+    <a href="Icons - Pipeline.html">★ Pipeline</a>
+  </div>
+
+  <header class="sheet-header">
+    <div class="kicker">Sheet A · <span id="countKicker"></span> species</div>
+    <h1>Original SVG icons</h1>
+    <p>
+      The full as-uploaded icon set. Each SVG is a multi-path silhouette traced from a reference photo,
+      with a thin stroke layer drawing the seams between adjacent filled regions. The icons read well at
+      hero size but carry redundant precision and a non-trivial stroke layer that adds bytes without
+      adding pixels at marker size.
+    </p>
+    <div class="pills">
+      <span class="pill dot" id="pillCount"></span>
+      <span class="pill dot">viewBox 1024–1402</span>
+      <span class="pill dot">multi-path silhouettes</span>
+      <span class="pill bad" id="pillTotalOrig"></span>
+    </div>
+  </header>
+
+  <section class="block">
+    <h2>Gallery · all 19 at hero size</h2>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section class="block">
+    <h2>Inside a teardrop marker · 56 px pin</h2>
+    <div class="pin-row" id="pinRow"></div>
+  </section>
+
+  <section class="block">
+    <h2>Size ramp · 40 · 24 · 16 px</h2>
+    <div class="ramp-row" id="rampRow"></div>
+  </section>
+
+  <section class="block">
+    <h2>Filesize · sorted descending</h2>
+    <table class="sizes" id="sizesTable">
+      <thead>
+        <tr>
+          <th style="width: 36px;">#</th>
+          <th>Species</th>
+          <th>File</th>
+          <th class="num">Bytes</th>
+          <th class="num">KB</th>
+          <th class="bar-cell">Relative</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="icons/species-data.js"></script>
+  <script>
+    const root = (p) => "icons/originals/" + encodeURIComponent(p);
+
+    // Count labels
+    document.getElementById('countKicker').textContent = SPECIES.length;
+    document.getElementById('pillCount').textContent = SPECIES.length + ' species';
+    const _totalOrig = SPECIES.reduce((a, s) => a + SIZES[s.file].orig, 0);
+    document.getElementById('pillTotalOrig').textContent = 'Σ ' + (_totalOrig/1024/1024).toFixed(2) + ' MB';
+
+    // Gallery
+    const gallery = document.getElementById('gallery');
+    SPECIES.forEach(s => {
+      const sz = SIZES[s.file].orig;
+      gallery.insertAdjacentHTML('beforeend', `
+        <div class="tile">
+          <div class="hero" style="background:#E8DEC4;"><img src="${root(s.file)}" alt="${s.latin}"></div>
+          <div class="meta">
+            <div class="latin">${s.latin}</div>
+            <div class="common">${s.de} · ${s.en}</div>
+            <div class="size"><span class="px">${fmtKB(sz)}</span><span>${sz.toLocaleString()} B</span></div>
+          </div>
+        </div>
+      `);
+    });
+
+    // Pin row — 56px pins
+    const pinRow = document.getElementById('pinRow');
+    SPECIES.forEach(s => {
+      const size = 56;
+      pinRow.insertAdjacentHTML('beforeend', `
+        <div class="pin-cell">
+          <div class="pin" style="width:${size}px;height:${size*1.25}px;">
+            <svg class="pin-shape" viewBox="0 0 64 80" width="${size}" height="${size*1.25}">
+              <path d="M32 1 C15 1 2 14 2 31 C2 48 22 64 32 79 C42 64 62 48 62 31 C62 14 49 1 32 1 Z" fill="#FFFFFF" stroke="#1F1A14" stroke-width="2"/>
+            </svg>
+            <div class="pin-icon" style="width:${size*0.62}px;height:${size*0.62}px;">
+              <img src="${root(s.file)}" style="width:100%;height:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="lab">${s.latin.split(' ').map(w => `<div>${w}</div>`).join('')}</div>
+        </div>
+      `);
+    });
+
+    // Size ramp
+    const rampRow = document.getElementById('rampRow');
+    SPECIES.forEach(s => {
+      rampRow.insertAdjacentHTML('beforeend', `
+        <div class="ramp">
+          <div class="name">${s.latin}</div>
+          <div class="row">
+            ${[64, 48, 32, 24, 16].map(px => `
+              <div class="step">
+                <img src="${root(s.file)}" style="width:${px}px;height:${px}px;">
+                <div class="lab">${px}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `);
+    });
+
+    // Filesize table — sorted desc
+    const sorted = SPECIES.slice().map(s => ({ s, sz: SIZES[s.file].orig })).sort((a, b) => b.sz - a.sz);
+    const maxSz = sorted[0].sz;
+    const tbody = document.querySelector('#sizesTable tbody');
+    let total = 0;
+    sorted.forEach((row, i) => {
+      total += row.sz;
+      tbody.insertAdjacentHTML('beforeend', `
+        <tr>
+          <td class="num" style="color:var(--ink-3);">${(i+1).toString().padStart(2,'0')}</td>
+          <td><span class="latin">${row.s.latin}</span> <span style="color:var(--ink-3);font-size:11px;">· ${row.s.de}</span></td>
+          <td style="font-family:var(--mono);font-size:11.5px;color:var(--ink-3);">${row.s.file}</td>
+          <td class="num">${row.sz.toLocaleString()}</td>
+          <td class="num">${(row.sz/1024).toFixed(1)} KB</td>
+          <td class="bar-cell"><div class="bar"><span style="width:${(row.sz/maxSz*100).toFixed(1)}%;"></span></div></td>
+        </tr>
+      `);
+    });
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr class="totals">
+        <td></td>
+        <td>Total · ${SPECIES.length} species</td>
+        <td></td>
+        <td class="num">${total.toLocaleString()}</td>
+        <td class="num">${(total/1024).toFixed(1)} KB</td>
+        <td class="bar-cell"></td>
+      </tr>
+    `);
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+/* Shared styles for the three mushroom icon sheets. */
+:root {
+  --bg: #F4F1EB;
+  --bg-card: #FBF9F3;
+  --bg-map: linear-gradient(135deg, #EFE9DA 0%, #E6DFCB 100%);
+  --bg-map-figured:
+      radial-gradient(ellipse at 30% 40%, #D9E5C6 0 18%, transparent 19%),
+      radial-gradient(ellipse at 75% 60%, #E6CFB0 0 22%, transparent 23%),
+      linear-gradient(135deg, #EFE9DA 0%, #E6DFCB 100%);
+  --grid: #EFE9DA;
+  --ink: #1F1A14;
+  --ink-2: #4B4233;
+  --ink-3: #7A6F5C;
+  --rule: #DDD5C2;
+  --accent: #8C4B1E;
+  --good: #2F7A3A;
+  --bad: #B25430;
+  --mono: ui-monospace, SFMono-Regular, Menlo, "Roboto Mono", monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+
+.sheet-header {
+  padding: 36px 48px 28px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-card);
+}
+.sheet-header .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.sheet-header h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.015em; margin: 6px 0 6px; }
+.sheet-header p { color: var(--ink-2); font-size: 14px; max-width: 780px; line-height: 1.55; margin: 8px 0 0; }
+.sheet-header .pills { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; background: #EFE9DA; font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); }
+.pill.good { background: #E2EEDC; color: #2F5A2A; }
+.pill.bad  { background: #F0D8C8; color: #82381A; }
+.pill.dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.7; }
+
+.lab { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.latin { font-style: italic; font-weight: 600; font-size: 14px; color: var(--ink); }
+.common { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
+
+.map-bg { background: var(--bg-map-figured); }
+.grid-bg {
+  background-color: var(--bg-card);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Map pin teardrop */
+.pin {
+  position: relative;
+  display: inline-block;
+  filter: drop-shadow(0 6px 8px rgba(20,15,5,0.22));
+}
+.pin svg.pin-shape { display: block; }
+.pin .pin-icon {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pin .pin-icon img { display: block; }

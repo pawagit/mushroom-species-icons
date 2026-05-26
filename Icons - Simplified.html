@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Simplified mushroom icons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="icons/sheets.css"/>
+  <style>
+    .toolbar {
+      display: flex;
+      gap: 18px;
+      padding: 14px 48px;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: #F8F5EE;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .toolbar a { color: var(--ink-2); text-decoration: none; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg-card); }
+    .toolbar a.active { background: var(--ink); color: #F4F1EB; border-color: var(--ink); }
+    .toolbar a:hover { border-color: var(--ink); }
+
+    section.block { padding: 32px 48px; border-bottom: 1px solid var(--rule); }
+    section.block > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 18px; font-family: var(--mono); }
+
+    /* Recipe box explaining the transform */
+    .recipe {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .recipe .step {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .recipe .step .num { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-bottom: 4px; letter-spacing: 0.08em; }
+    .recipe .step .title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+    .recipe .step .desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+    .recipe .step .est { font-family: var(--mono); font-size: 10.5px; color: var(--good); margin-top: 8px; }
+
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+    .tile { border-radius: 10px; overflow: hidden; border: 1px solid var(--rule); background: var(--bg-card); display: flex; flex-direction: column; }
+    .tile .hero { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; padding: 14px; background: #E8DEC4; }
+    .tile .hero img { width: 100%; height: 100%; object-fit: contain; }
+    .tile .meta { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--rule); }
+    .tile .meta .latin { font-size: 12.5px; line-height: 1.3; }
+    .tile .meta .common { font-size: 10.5px; }
+    .tile .meta .size { font-family: var(--mono); font-size: 10px; color: var(--ink-3); margin-top: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .tile .meta .size .px { background: #E2EEDC; color:#2F5A2A; padding: 2px 6px; border-radius: 4px; }
+    .tile .meta .save { font-family: var(--mono); font-size: 10px; color: var(--good); }
+
+    /* Filesize comparison table — the FOCUS of this sheet */
+    table.sizes { width: 100%; border-collapse: collapse; font-size: 13px; }
+    table.sizes th, table.sizes td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--rule); }
+    table.sizes th { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; background: var(--bg-card); }
+    table.sizes td.num { font-family: var(--mono); text-align: right; white-space: nowrap; min-width: 92px; }
+    table.sizes th.num { min-width: 92px; }
+    .bar { height: 8px; background: #EFE9DA; border-radius: 4px; overflow: hidden; position: relative; }
+    .bar > .orig { display: block; height: 100%; background: #C8B89A; opacity: 0.55; position: absolute; top: 0; left: 0; }
+    .bar > .simp { display: block; height: 100%; background: var(--good); position: absolute; top: 0; left: 0; }
+    .bar-cell { width: 260px; }
+    .pct.good { color: var(--good); font-weight: 600; }
+    .totals td { font-weight: 600; background: #F0EBDD; }
+
+    .pin-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 16px;
+      padding: 28px 24px;
+      border-radius: 10px;
+      background: var(--bg-map-figured);
+    }
+    .pin-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .pin-cell .lab { text-align: center; line-height: 1.25; max-width: 110px; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="lab">Sheets:</span>
+    <a href="Icons - Original.html">A · Originals</a>
+    <a href="Icons - Simplified.html" class="active">B · Simplified</a>
+    <a href="Icons - Comparison.html">C · Comparison</a>
+    <a href="Icons - Unified.html">D · Unified</a>
+    <a href="Icons - Squeezed.html">E · Squeezed</a>
+    <a href="Icons - Unified (from Original).html">F · Unified (from original)</a>
+    <a href="Icons - Pipeline.html">★ Pipeline</a>
+  </div>
+
+  <header class="sheet-header">
+    <div class="kicker">Sheet B · Filesize reduction</div>
+    <h1>Simplified SVG icons</h1>
+    <p>
+      Same shapes, fewer bytes. Decimals on path coordinates rounded to one place, the
+      sub-pixel seam-stroke layer dropped, the opaque white background rect removed, and all
+      whitespace and redundant attributes collapsed. No paths re-drawn — visually equivalent at
+      every icon size the set is used at.
+    </p>
+    <div class="pills" id="pillSummary"></div>
+
+    <div class="recipe">
+      <div class="step">
+        <div class="num">01</div>
+        <div class="title">Drop the seam-stroke layer</div>
+        <div class="desc">The top-level <code>&lt;g stroke-width="2"&gt;</code> only draws thin anti-alias seams between adjacent filled regions. Invisible at marker size.</div>
+        <div class="est">≈ 30–40 % saved</div>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div class="title">Round coordinates · 1 decimal</div>
+        <div class="desc">Source paths have 2-decimal precision over a ~1200-unit canvas. At 110 px hero size, 1 decimal = ~0.01 px — undetectable.</div>
+        <div class="est">≈ 20 % saved</div>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div class="title">Drop white background rect</div>
+        <div class="desc">A full-canvas <code>fill="#ffffff"</code> rectangle covered every icon. Removed so icons are transparent and composite cleanly into marker pins.</div>
+        <div class="est">marker fidelity win</div>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <div class="title">Strip noise</div>
+        <div class="desc">Collapse <code>&amp;#xA;</code> newlines and whitespace inside <code>d=</code>, remove <code>vector-effect</code> attrs, drop the XML prolog.</div>
+        <div class="est">≈ 5 % saved</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="block">
+    <h2>Filesize · before → after · sorted desc</h2>
+    <table class="sizes" id="sizesTable">
+      <thead>
+        <tr>
+          <th style="width:36px;">#</th>
+          <th>Species</th>
+          <th class="num">Original</th>
+          <th class="num">Simplified</th>
+          <th class="num">Saved</th>
+          <th class="num">%</th>
+          <th class="bar-cell">Visual</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="block">
+    <h2>Gallery · simplified · all 19 at hero size</h2>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section class="block">
+    <h2>Inside a teardrop marker · 56 px pin</h2>
+    <div class="pin-row" id="pinRow"></div>
+  </section>
+
+  <script src="icons/species-data.js"></script>
+  <script>
+    const root = (p) => "icons/simplified/" + encodeURIComponent(p);
+
+    // Summary pills
+    let totOrig = 0, totSimp = 0;
+    SPECIES.forEach(s => { totOrig += SIZES[s.file].orig; totSimp += SIZES[s.file].simp; });
+    const savedBytes = totOrig - totSimp;
+    const savedPct = (savedBytes / totOrig * 100).toFixed(1);
+    document.getElementById('pillSummary').innerHTML = `
+      <span class="pill dot">${SPECIES.length} species</span>
+      <span class="pill bad">Σ ${(totOrig/1024).toFixed(1)} KB before</span>
+      <span class="pill good">Σ ${(totSimp/1024).toFixed(1)} KB after</span>
+      <span class="pill good">−${(savedBytes/1024).toFixed(1)} KB · ${savedPct}% smaller</span>
+    `;
+
+    // Comparison table (sorted desc by original)
+    const sorted = SPECIES.slice().map(s => {
+      const sz = SIZES[s.file];
+      return { s, orig: sz.orig, simp: sz.simp, saved: sz.orig - sz.simp, pct: (sz.simp/sz.orig*100) };
+    }).sort((a,b) => b.orig - a.orig);
+    const maxOrig = sorted[0].orig;
+    const tbody = document.querySelector('#sizesTable tbody');
+    sorted.forEach((row, i) => {
+      const origPct = row.orig/maxOrig*100;
+      const simpPct = row.simp/maxOrig*100;
+      const fmt = (b) => (b/1024).toFixed(1) + '\u00A0KB';
+      tbody.insertAdjacentHTML('beforeend', `
+        <tr>
+          <td class="num" style="color:var(--ink-3);">${(i+1).toString().padStart(2,'0')}</td>
+          <td><span class="latin">${row.s.latin}</span> <span style="color:var(--ink-3);font-size:11px;">· ${row.s.de}</span></td>
+          <td class="num">${fmt(row.orig)}</td>
+          <td class="num" style="color:var(--good);font-weight:600;">${fmt(row.simp)}</td>
+          <td class="num">${fmt(row.saved)}</td>
+          <td class="num pct good">${row.pct.toFixed(1)}%</td>
+          <td class="bar-cell">
+            <div class="bar">
+              <span class="orig" style="width:${origPct.toFixed(1)}%;"></span>
+              <span class="simp" style="width:${simpPct.toFixed(1)}%;"></span>
+            </div>
+          </td>
+        </tr>
+      `);
+    });
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr class="totals">
+        <td></td>
+        <td>Total · ${SPECIES.length} species</td>
+        <td class="num">${(totOrig/1024).toFixed(1)}\u00A0KB</td>
+        <td class="num" style="color:var(--good);">${(totSimp/1024).toFixed(1)}\u00A0KB</td>
+        <td class="num">${(savedBytes/1024).toFixed(1)}\u00A0KB</td>
+        <td class="num pct good">${(totSimp/totOrig*100).toFixed(1)}%</td>
+        <td class="bar-cell"><div class="bar"><span class="orig" style="width:100%;"></span><span class="simp" style="width:${(totSimp/totOrig*100).toFixed(1)}%;"></span></div></td>
+      </tr>
+    `);
+
+    // Gallery
+    const gallery = document.getElementById('gallery');
+    SPECIES.forEach(s => {
+      const o = SIZES[s.file].orig;
+      const sz = SIZES[s.file].simp;
+      const pct = (sz/o*100).toFixed(1);
+      gallery.insertAdjacentHTML('beforeend', `
+        <div class="tile">
+          <div class="hero" style="background:#E8DEC4;"><img src="${root(s.file)}" alt="${s.latin}"></div>
+          <div class="meta">
+            <div class="latin">${s.latin}</div>
+            <div class="common">${s.de} · ${s.en}</div>
+            <div class="size"><span class="px">${(sz/1024).toFixed(1)} KB</span><span class="save">${pct}% of orig</span></div>
+          </div>
+        </div>
+      `);
+    });
+
+    // Pin row
+    const pinRow = document.getElementById('pinRow');
+    SPECIES.forEach(s => {
+      const size = 56;
+      pinRow.insertAdjacentHTML('beforeend', `
+        <div class="pin-cell">
+          <div class="pin" style="width:${size}px;height:${size*1.25}px;">
+            <svg class="pin-shape" viewBox="0 0 64 80" width="${size}" height="${size*1.25}">
+              <path d="M32 1 C15 1 2 14 2 31 C2 48 22 64 32 79 C42 64 62 48 62 31 C62 14 49 1 32 1 Z" fill="#FFFFFF" stroke="#1F1A14" stroke-width="2"/>
+            </svg>
+            <div class="pin-icon" style="width:${size*0.62}px;height:${size*0.62}px;">
+              <img src="${root(s.file)}" style="width:100%;height:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="lab">${s.latin.split(' ').map(w => `<div>${w}</div>`).join('')}</div>
+        </div>
+      `);
+    });
+  </script>
+</body>
+</html>

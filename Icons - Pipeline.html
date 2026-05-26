@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Pipeline & adding species — mushroom icons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="icons/sheets.css"/>
+  <style>
+    .toolbar {
+      display: flex;
+      gap: 18px;
+      padding: 14px 48px;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: #F8F5EE;
+      font-size: 13px;
+      color: var(--ink-2);
+      flex-wrap: wrap;
+    }
+    .toolbar a { color: var(--ink-2); text-decoration: none; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg-card); }
+    .toolbar a.active { background: var(--ink); color: #F4F1EB; border-color: var(--ink); }
+    .toolbar a:hover { border-color: var(--ink); }
+
+    main { max-width: 1240px; margin: 0 auto; }
+
+    section.block { padding: 36px 48px; border-bottom: 1px solid var(--rule); }
+    section.block > h2 { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 18px; font-family: var(--mono); }
+    section.block > h2 .num { color: var(--accent); margin-right: 12px; }
+    section.block > p.lede { color: var(--ink-2); font-size: 14px; line-height: 1.55; max-width: 760px; margin: 0 0 24px; }
+
+    /* Procedure steps */
+    .procedure { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 22px;
+      position: relative;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .step-card .step-num {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      color: var(--accent); font-weight: 600;
+    }
+    .step-card h3 { font-size: 16px; font-weight: 600; margin: 0; letter-spacing: -0.005em; }
+    .step-card p { font-size: 13px; color: var(--ink-2); line-height: 1.55; margin: 0; }
+    .step-card .pseudo { margin-top: auto; padding-top: 10px; }
+    .step-card code, .step-card pre { font-family: var(--mono); font-size: 12px; background: #F0EBDD; padding: 2px 6px; border-radius: 4px; color: #4A3A22; display: inline-block; }
+    .step-card pre {
+      display: block;
+      padding: 10px 12px;
+      line-height: 1.55;
+      white-space: pre;
+      overflow-x: auto;
+      border: 1px solid var(--rule);
+      background: #FBF9F3;
+    }
+    .step-card .pseudo pre { margin: 0; }
+
+    /* Pipeline diagram */
+    .diagram { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 12px; padding: 24px; overflow-x: auto; }
+    .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+
+    /* Conventions list */
+    .convention-grid { display: grid; grid-template-columns: 200px 1fr; gap: 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+    .convention-grid > div { padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+    .convention-grid > div:nth-last-child(-n+2) { border-bottom: none; }
+    .convention-grid > .key {
+      font-family: var(--mono); font-size: 11.5px; color: var(--ink-3);
+      background: #F8F5EE; border-right: 1px solid var(--rule);
+      display: flex; align-items: center;
+    }
+    .convention-grid > .val { background: var(--bg-card); font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+    .convention-grid > .val code { font-family: var(--mono); font-size: 12px; background: #F0EBDD; padding: 1px 5px; border-radius: 3px; color: #4A3A22; }
+
+    /* Code block (full) */
+    pre.code {
+      font-family: var(--mono); font-size: 12.5px;
+      background: #FBF9F3;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 18px 22px;
+      line-height: 1.6;
+      overflow-x: auto;
+      color: #2A2520;
+      max-width: 100%;
+    }
+    pre.code .c { color: var(--ink-3); } /* comment */
+    pre.code .k { color: var(--accent); font-weight: 600; } /* keyword */
+    pre.code .s { color: #2F7A3A; } /* string */
+    pre.code .n { color: #7A5634; } /* number */
+    pre.code .a { color: #4A3A22; font-weight: 600; } /* attribute name */
+
+    /* Transform details */
+    .transforms { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .transform {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 22px 24px;
+    }
+    .transform h3 { margin: 0 0 6px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+    .transform h3 .tag { font-family: var(--mono); font-size: 10.5px; padding: 2px 8px; border-radius: 4px; background: #EFE9DA; color: var(--ink-3); font-weight: 500; }
+    .transform .from-to { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); margin: 0 0 12px; }
+    .transform .from-to .arrow { color: var(--accent); margin: 0 8px; }
+    .transform ul { margin: 8px 0 0; padding: 0 0 0 18px; font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+    .transform ul li { margin-bottom: 4px; }
+    .transform ul code { font-family: var(--mono); font-size: 12px; background: #F0EBDD; padding: 1px 5px; border-radius: 3px; color: #4A3A22; }
+
+    /* Checklist */
+    .checklist { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+    .check {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-size: 13px;
+      color: var(--ink-2);
+      line-height: 1.55;
+      position: relative;
+      padding-left: 44px;
+    }
+    .check::before {
+      content: "";
+      position: absolute;
+      left: 16px; top: 18px;
+      width: 16px; height: 16px;
+      border: 1.5px solid var(--ink-3);
+      border-radius: 4px;
+      background: #FBF9F3;
+    }
+    .check b { color: var(--ink); }
+    .check .sheet { font-family: var(--mono); font-size: 11px; color: var(--accent); display: block; margin-bottom: 4px; }
+    .check a { color: var(--accent); text-decoration: none; }
+    .check a:hover { text-decoration: underline; }
+
+    /* Anomalies */
+    .anom-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+    .anom-table th, .anom-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    .anom-table tr:last-child td { border-bottom: none; }
+    .anom-table th { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; background: #F8F5EE; }
+    .anom-table td.flag { font-family: var(--mono); color: var(--bad); white-space: nowrap; }
+    .anom-table td.detail { color: var(--ink-2); line-height: 1.55; }
+    .anom-table td.detail code { font-family: var(--mono); font-size: 12px; background: #F0EBDD; padding: 1px 5px; border-radius: 3px; color: #4A3A22; }
+
+    /* Inline ask box */
+    .ask {
+      background: linear-gradient(180deg, #FBF9F3 0%, #F4EFE0 100%);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-top: 8px;
+    }
+    .ask .pre { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.05em; font-weight: 600; }
+    .ask code { font-family: var(--mono); background: #FFFFFF; padding: 3px 10px; border-radius: 4px; font-size: 13.5px; color: var(--ink); border: 1px solid var(--rule); }
+    .ask p { font-size: 13px; color: var(--ink-2); margin: 8px 0 0; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="lab">Sheets:</span>
+    <a href="Icons - Original.html">A · Originals</a>
+    <a href="Icons - Simplified.html">B · Simplified</a>
+    <a href="Icons - Comparison.html">C · Comparison</a>
+    <a href="Icons - Unified.html">D · Unified</a>
+    <a href="Icons - Squeezed.html">E · Squeezed</a>
+    <a href="Icons - Unified (from Original).html">F · Unified (from original)</a>
+    <a href="Icons - Pipeline.html" class="active">★ Pipeline</a>
+  </div>
+
+  <main>
+    <header class="sheet-header">
+      <div class="kicker">Pipeline · adding species · conventions</div>
+      <h1>Adding a new species</h1>
+      <p>
+        Every sheet in this project is generated from one source SVG per species, processed through
+        a deterministic four-step pipeline. Adding a new species means staging the SVG, registering
+        the metadata, and asking for a rebuild. This page documents everything needed to do that
+        cleanly.
+      </p>
+      <div class="pills">
+        <span class="pill dot">4 deterministic transforms</span>
+        <span class="pill dot">1 metadata row per species</span>
+        <span class="pill dot">5 derivative files per species</span>
+        <span class="pill dot">6 downstream sheets · auto-pick up</span>
+      </div>
+    </header>
+
+    <section class="block">
+      <h2><span class="num">01</span>Three-step procedure</h2>
+      <p class="lede">
+        The full add-a-species procedure. Steps 1 and 2 are yours; step 3 is mine.
+      </p>
+      <div class="procedure">
+
+        <div class="step-card">
+          <span class="step-num">STEP 1</span>
+          <h3>Drop the SVG in <code>uploads/</code></h3>
+          <p>
+            Filename: lowercase, space-separated genus + species, no diacritics.
+            Same export style as the existing 19 — see the conventions block below.
+          </p>
+          <div class="pseudo">
+            <pre>uploads/
+└─ tylopilus felleus.svg</pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">STEP 2</span>
+          <h3>Append the metadata row</h3>
+          <p>
+            Add one entry to <code>window.SPECIES</code> in <code>icons/species-data.js</code>.
+            Position matters — it sets the order across every sheet.
+          </p>
+          <div class="pseudo">
+            <pre>{
+  id:    "tylopilus-felleus",
+  file:  "tylopilus felleus.svg",
+  latin: "Tylopilus felleus",
+  de:    "Gallenröhrling",
+  en:    "Bitter bolete"
+},</pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-num">STEP 3</span>
+          <h3>Ask me to rebuild</h3>
+          <p>
+            I run the pipeline on the new species, write all five derivative files,
+            update <code>SIZES</code>, and surface any anomalies the run picked up.
+          </p>
+          <div class="pseudo">
+            <div class="ask" style="margin: 0; padding: 12px 14px;">
+              <div class="pre">type to me ↘</div>
+              <code>rebuild derivatives for new species</code>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="block">
+      <h2><span class="num">02</span>What the pipeline does</h2>
+      <p class="lede">
+        Five derivative files per species. The simplified → unified → squeezed chain is the
+        main line; <i>unified-original</i> branches off the source to keep the rich seam strokes.
+      </p>
+      <div class="diagram">
+        <svg viewBox="0 0 1100 540" width="1100" height="540" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 Z" fill="#8C4B1E"/>
+            </marker>
+            <style>
+              .box { fill: #FBF9F3; stroke: #DDD5C2; stroke-width: 1.5; }
+              .box-src { fill: #F4EFE0; stroke: #B89C5A; }
+              .box-final { fill: #E2EEDC; stroke: #2F7A3A; }
+              .tag { font: 600 11px ui-monospace, Menlo, monospace; fill: #7A6F5C; letter-spacing: 0.06em; }
+              .label { font: 600 13px ui-sans-serif, system-ui, sans-serif; fill: #1F1A14; }
+              .desc { font: 11.5px ui-monospace, Menlo, monospace; fill: #4B4233; }
+              .size { font: 600 11.5px ui-monospace, Menlo, monospace; fill: #2F7A3A; }
+              .arrow-line { stroke: #8C4B1E; stroke-width: 1.5; fill: none; }
+              .verb { font: italic 600 12px ui-sans-serif, system-ui; fill: #8C4B1E; }
+            </style>
+          </defs>
+
+          <!-- uploads/ -->
+          <g transform="translate(40, 30)">
+            <rect class="box box-src" x="0" y="0" width="220" height="70" rx="10"/>
+            <text class="tag" x="14" y="22">SOURCE</text>
+            <text class="label" x="14" y="42">uploads/&lt;file&gt;.svg</text>
+            <text class="desc" x="14" y="60">your hand-off</text>
+          </g>
+
+          <!-- arrow down to originals -->
+          <line class="arrow-line" x1="150" y1="100" x2="150" y2="135" marker-end="url(#arrow)"/>
+          <text class="verb" x="158" y="120">copy verbatim</text>
+
+          <!-- originals/ -->
+          <g transform="translate(40, 140)">
+            <rect class="box" x="0" y="0" width="220" height="70" rx="10"/>
+            <text class="tag" x="14" y="22">icons/originals/</text>
+            <text class="label" x="14" y="42">verbatim copy</text>
+            <text class="desc" x="14" y="60">archive · never modified</text>
+          </g>
+
+          <!-- arrow branching: down to simplified, right to unified-original -->
+          <path class="arrow-line" d="M 150 210 L 150 260" marker-end="url(#arrow)"/>
+          <text class="verb" x="158" y="240">simplify</text>
+
+          <!-- branch right -->
+          <path class="arrow-line" d="M 260 175 L 700 175" marker-end="url(#arrow)"/>
+          <text class="verb" x="380" y="166">strip white fills · seam strokes kept</text>
+
+          <!-- simplified/ -->
+          <g transform="translate(40, 270)">
+            <rect class="box" x="0" y="0" width="220" height="86" rx="10"/>
+            <text class="tag" x="14" y="22">icons/simplified/</text>
+            <text class="label" x="14" y="42">slim copy</text>
+            <text class="desc" x="14" y="60">≈ 38 % of original</text>
+            <text class="desc" x="14" y="76">1-dp coords · no seam strokes</text>
+          </g>
+
+          <!-- arrow down to unified -->
+          <line class="arrow-line" x1="150" y1="358" x2="150" y2="394" marker-end="url(#arrow)"/>
+          <text class="verb" x="158" y="378">unify · centre 1000×1000</text>
+
+          <!-- unified/ -->
+          <g transform="translate(40, 400)">
+            <rect class="box" x="0" y="0" width="220" height="86" rx="10"/>
+            <text class="tag" x="14" y="22">icons/unified/</text>
+            <text class="label" x="14" y="42">same canvas, every species</text>
+            <text class="desc" x="14" y="60">viewBox 0 0 1000 1000</text>
+            <text class="desc" x="14" y="76">5 % safe margin · bbox centred</text>
+          </g>
+
+          <!-- arrow right to squeezed -->
+          <line class="arrow-line" x1="260" y1="443" x2="700" y2="443" marker-end="url(#arrow)"/>
+          <text class="verb" x="380" y="433">squeeze · bake transform · integer coords</text>
+
+          <!-- squeezed/ -->
+          <g transform="translate(720, 400)">
+            <rect class="box box-final" x="0" y="0" width="240" height="86" rx="10"/>
+            <text class="tag" x="14" y="22">icons/squeezed/</text>
+            <text class="label" x="14" y="42">minimum-byte production</text>
+            <text class="desc" x="14" y="60">≈ 26 % of original</text>
+            <text class="desc" x="14" y="76">integer precision · merged runs</text>
+          </g>
+
+          <!-- unified-original/ -->
+          <g transform="translate(720, 140)">
+            <rect class="box box-final" x="0" y="0" width="240" height="86" rx="10"/>
+            <text class="tag" x="14" y="22">icons/unified-original/</text>
+            <text class="label" x="14" y="42">rich source · unified</text>
+            <text class="desc" x="14" y="60">seam strokes preserved</text>
+            <text class="desc" x="14" y="76">≈ 94 % of original</text>
+          </g>
+
+          <!-- Legend -->
+          <g transform="translate(720, 280)">
+            <text class="tag" x="0" y="0">LEGEND</text>
+            <rect class="box box-src" x="0" y="14" width="14" height="14" rx="3"/>
+            <text class="desc" x="22" y="25">source · your hand-off</text>
+            <rect class="box" x="0" y="36" width="14" height="14" rx="3"/>
+            <text class="desc" x="22" y="47">archive / intermediate</text>
+            <rect class="box box-final" x="0" y="58" width="14" height="14" rx="3"/>
+            <text class="desc" x="22" y="69">used by downstream sheets</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2><span class="num">03</span>Source SVG conventions</h2>
+      <p class="lede">
+        The pipeline trusts a few structural assumptions about the source SVG. New icons should
+        match — if they don't, flag it and we'll widen the rules.
+      </p>
+      <div class="convention-grid">
+        <div class="key">filename</div>
+        <div class="val">Lowercase, space-separated <code>genus species.svg</code>. No diacritics in the filename even if the latin name has them. Example: <code>tylopilus felleus.svg</code>.</div>
+
+        <div class="key">viewBox</div>
+        <div class="val">Any aspect — portrait, landscape and square are all handled. The unify step computes the actual content bounding box from path geometry, not the declared viewBox, so an off-centre or oversized viewBox is fine.</div>
+
+        <div class="key">seam-stroke layer</div>
+        <div class="val">A top-level <code>&lt;g stroke-width="2.00" fill="none" stroke-linecap="butt"&gt;</code> containing stroke-only paths that trace the boundaries between filled regions. <b>Removed in simplify, preserved in unified-from-original.</b></div>
+
+        <div class="key">filled paths</div>
+        <div class="val">A sequence of <code>&lt;path fill="#xxxxxx" d="…"&gt;&lt;/path&gt;</code> entries for each coloured region. Paths must use absolute commands (uppercase M, L, C, Q, …) — relative is supported but the source tracer always emits absolute.</div>
+
+        <div class="key">background</div>
+        <div class="val">The first filled path is typically <code>fill="#ffffff"</code> covering the canvas with mushroom-shaped holes. <b>Always stripped.</b></div>
+
+        <div class="key">internal white fills</div>
+        <div class="val">Additional <code>fill="#ffffff"</code> paths may exist for white space <i>between</i> adjacent mushrooms in clustered species. <b>Stripped by default.</b> If white is a real diagnostic colour for your species, flag it in step 3 and I'll preserve those paths.</div>
+
+        <div class="key">precision</div>
+        <div class="val">Source coordinates use 2 decimals over a ~1000–1500-unit canvas. The simplifier rounds to 1 dp (sub-pixel at hero size), the squeezer to integers in the 0–1000 unified canvas.</div>
+
+        <div class="key">arcs</div>
+        <div class="val">Arc commands (<code>A</code>) are supported. Bbox is computed with a conservative endpoint+radius expansion — if a new icon uses unusually large arcs, the unify step will slightly over-pad it.</div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2><span class="num">04</span>Metadata schema</h2>
+      <p class="lede">
+        <code>icons/species-data.js</code> is a single JS file with two exports.
+        <code>SPECIES</code> drives the order and labels; <code>SIZES</code> drives the filesize
+        readouts. I update <code>SIZES</code> automatically on rebuild.
+      </p>
+      <pre class="code"><span class="c">// One row per species. Order = display order across every sheet.</span>
+<span class="k">window</span>.<span class="a">SPECIES</span> = [
+  …existing 19 entries…,
+  {
+    id:    <span class="s">"tylopilus-felleus"</span>,        <span class="c">// unique kebab-case</span>
+    file:  <span class="s">"tylopilus felleus.svg"</span>,    <span class="c">// matches uploads/ filename</span>
+    latin: <span class="s">"Tylopilus felleus"</span>,
+    de:    <span class="s">"Gallenröhrling"</span>,           <span class="c">// German common (diacritics OK here)</span>
+    en:    <span class="s">"Bitter bolete"</span>             <span class="c">// English common</span>
+  },
+];
+
+<span class="c">// Filesize report, keyed by filename. Maintained by the rebuild step.</span>
+<span class="k">window</span>.<span class="a">SIZES</span> = {
+  <span class="s">"tylopilus felleus.svg"</span>: { orig: <span class="n">88704</span>, simp: <span class="n">36201</span>, sq: <span class="n">24853</span> },
+  …
+};</pre>
+    </section>
+
+    <section class="block">
+      <h2><span class="num">05</span>The four transforms · detail</h2>
+      <p class="lede">
+        Every transform is deterministic — same input always produces the same output. If the
+        pipeline logic changes, all species can be re-derived with "rebuild all".
+      </p>
+      <div class="transforms">
+
+        <div class="transform">
+          <h3><span class="tag">01</span>Simplify</h3>
+          <div class="from-to">uploads/ <span class="arrow">→</span> icons/simplified/</div>
+          <ul>
+            <li>Strip the XML prolog and comment blocks.</li>
+            <li>Drop the entire seam-stroke <code>&lt;g stroke-width="…" fill="none" stroke-linecap="butt"&gt;</code>.</li>
+            <li>Drop every <code>&lt;path fill="#ffffff" …&gt;&lt;/path&gt;</code>.</li>
+            <li>Replace encoded newlines (<code>&amp;#xA;</code>) inside <code>d=</code> with spaces.</li>
+            <li>Remove <code>vector-effect="non-scaling-stroke"</code> attributes.</li>
+            <li>Round each numeric token in <code>d=</code> to 1 decimal, trim trailing zeros after the decimal point.</li>
+            <li>Collapse multi-space runs; drop space between command letters and following digits.</li>
+          </ul>
+        </div>
+
+        <div class="transform">
+          <h3><span class="tag">02</span>Unify</h3>
+          <div class="from-to">icons/simplified/ <span class="arrow">→</span> icons/unified/</div>
+          <ul>
+            <li>Parse the SVG with <code>DOMParser</code>.</li>
+            <li>For every <code>&lt;path&gt;</code>, <code>&lt;ellipse&gt;</code>, <code>&lt;circle&gt;</code> compute the geometric bbox.
+              Path bbox tokenises <code>d=</code> and tracks pen position through M/L/H/V/C/S/Q/T/A/Z and their relative variants.
+              Cubic and quadratic control points are included for a conservative outer bound; arcs are bounded by ±radius around the chord midpoint.</li>
+            <li>Union all bboxes → content bbox <code>(x, y, w, h)</code>.</li>
+            <li>Compute <code>scale = 900 / max(w, h)</code> (so content occupies 90 % of the canvas).</li>
+            <li>Compute <code>tx = 500 − (x + w/2) × scale</code>, <code>ty = 500 − (y + h/2) × scale</code>.</li>
+            <li>Emit <code>&lt;svg viewBox="0 0 1000 1000"&gt;&lt;g transform="translate(tx ty) scale(s)"&gt;…&lt;/g&gt;&lt;/svg&gt;</code>.</li>
+          </ul>
+        </div>
+
+        <div class="transform">
+          <h3><span class="tag">03</span>Squeeze</h3>
+          <div class="from-to">icons/unified/ <span class="arrow">→</span> icons/squeezed/</div>
+          <ul>
+            <li>Read the wrapper transform; strip the <code>&lt;g&gt;</code>.</li>
+            <li>For each path <code>d=</code>, parse commands + parameters; for each numeric parameter:
+              absolute coord → <code>v × scale + translate</code>; relative coord → <code>v × scale</code>; arc radius → <code>v × scale</code>; rotation and flags → unchanged.</li>
+            <li>Round every value to integer.</li>
+            <li>Apply the same baking to <code>&lt;ellipse&gt;</code> / <code>&lt;circle&gt;</code> attributes.</li>
+            <li>Merge consecutive same-letter command runs (<code>L 5 6 L 7 8</code> → <code>L5 6 7 8</code>), including implicit-L after M.</li>
+            <li>Drop space between letter and digit; let negative signs absorb their leading space.</li>
+          </ul>
+        </div>
+
+        <div class="transform">
+          <h3><span class="tag">04</span>Unify-from-original</h3>
+          <div class="from-to">uploads/ <span class="arrow">→</span> icons/unified-original/</div>
+          <ul>
+            <li>Same as transform 02, but applied to the original SVG.</li>
+            <li>Only <code>fill="#ffffff"</code> paths are stripped — the seam-stroke layer is preserved.</li>
+            <li>Result: a 1000 × 1000 icon with the rich source detail.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="block">
+      <h2><span class="num">06</span>Anomalies the rebuild reports</h2>
+      <p class="lede">
+        Heuristics that flag a new species for human review. None are blocking — they print a note
+        you can choose to act on.
+      </p>
+      <table class="anom-table">
+        <thead>
+          <tr>
+            <th style="width:240px;">Flag</th>
+            <th>What it means · what to do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="flag">extra-white-fills</td>
+            <td class="detail">Source has more than one <code>fill="#ffffff"</code> path. The first is always the canvas background; additional ones are usually internal gaps to strip (the default) but could be a legitimate diagnostic feature. Confirm with you.</td>
+          </tr>
+          <tr>
+            <td class="flag">tight-bbox-margin</td>
+            <td class="detail">Content bbox margin in the source is under 2 % on any side. Usually fine, but worth a glance — the unify step still re-frames to 5 % so this only matters if the original was meant to extend off-canvas.</td>
+          </tr>
+          <tr>
+            <td class="flag">unusual-aspect</td>
+            <td class="detail">Content bbox aspect &gt; 3:1. Very tall or very wide species will appear small inside a square — flagged so you can decide if that's a problem.</td>
+          </tr>
+          <tr>
+            <td class="flag">squeeze-ratio-outside-65-75%</td>
+            <td class="detail">The squeezed output is unexpectedly large or small relative to the unified file. Probably benign — different command mixes compress differently — but a large deviation suggests something weird in the source.</td>
+          </tr>
+          <tr>
+            <td class="flag">path-bbox-failed</td>
+            <td class="detail">A path contained tokens the bbox parser couldn't interpret. The unified file falls back to the next-largest bbox; the icon may be off-centre. Send me the path and I'll extend the parser.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="block">
+      <h2><span class="num">07</span>Manual checklist after rebuild</h2>
+      <p class="lede">
+        Open each sheet in turn and find the new species. Tick what passes; if something fails,
+        send me the name and a short description and I'll dig in.
+      </p>
+      <div class="checklist">
+        <div class="check">
+          <span class="sheet">Sheet C · Comparison</span>
+          The simplified version should be <b>visually indistinguishable</b> from the original at hero size and at marker size. Watch for missing internal features, broken silhouettes, or transparent holes.
+        </div>
+        <div class="check">
+          <span class="sheet">Sheet D · Unified</span>
+          The new icon should sit <b>visually centred</b> inside its 1000×1000 square. Tall species hit top/bottom; wide species hit left/right. Markedly off-centre = path bbox got thrown off by an outlier.
+        </div>
+        <div class="check">
+          <span class="sheet">Sheet E · Squeezed @ 300 px</span>
+          The icon should <b>read clearly on all four backgrounds</b> (sand / cream / white / charcoal). The centre crosshair should bisect the visual mass of the silhouette.
+        </div>
+        <div class="check">
+          <span class="sheet">Sheet F · Unified (from original)</span>
+          Same centring check as D, plus: <b>no white halos</b> on cap edges, <b>no white squares</b> between clustered mushrooms. If either appears, additional internal white-fill paths need stripping — flag it.
+        </div>
+        <div class="check">
+          <span class="sheet">Sheet B · Simplified</span>
+          The new species appears in the filesize table. The simplified ratio is <b>30 – 45 %</b> of original. Outside that range = inspect.
+        </div>
+        <div class="check">
+          <span class="sheet">All sheets · pin row</span>
+          Inside a 56 px teardrop marker, the icon should still <b>read at a glance</b> (silhouette recognisable). If not, the species may need a more aggressive shape simplification before being added.
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2><span class="num">08</span>Re-running the pipeline on everything</h2>
+      <p class="lede">
+        If the pipeline logic itself changes (e.g. tweaking the safe margin from 5 % to 4 %,
+        changing the bbox heuristic, adding a new simplification rule), every icon can be
+        re-derived in one go.
+      </p>
+      <div class="ask">
+        <div class="pre">type to me ↘</div>
+        <code>rebuild all derivatives</code>
+        <p>I re-run all four transforms over every species in <code>SPECIES</code>, write fresh files, update <code>SIZES</code>, and report any species whose anomalies have changed.</p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

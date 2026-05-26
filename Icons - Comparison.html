@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Original vs simplified — side-by-side</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="icons/sheets.css"/>
+  <style>
+    .toolbar {
+      display: flex;
+      gap: 18px;
+      padding: 14px 48px;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: #F8F5EE;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .toolbar a { color: var(--ink-2); text-decoration: none; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg-card); }
+    .toolbar a.active { background: var(--ink); color: #F4F1EB; border-color: var(--ink); }
+    .toolbar a:hover { border-color: var(--ink); }
+
+    /* Per-species comparison card */
+    .compare-grid { padding: 32px 48px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .pair {
+      display: grid;
+      grid-template-columns: 220px 1fr 1fr 220px;
+      gap: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .pair .id-col { padding: 22px 22px; display: flex; flex-direction: column; gap: 8px; border-right: 1px solid var(--rule); background: #F8F5EE; }
+    .pair .id-col .num { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.08em; }
+    .pair .id-col .latin { font-size: 16px; line-height: 1.25; }
+    .pair .id-col .common { font-size: 11px; color: var(--ink-3); margin-top: 2px; font-family: var(--mono); }
+    .pair .id-col .common .de { color: var(--ink-2); }
+    .pair .id-col .vsizes { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--rule); display: flex; flex-direction: column; gap: 4px; font-family: var(--mono); font-size: 11px; }
+    .pair .id-col .vsizes .row { display: flex; justify-content: space-between; gap: 8px; }
+    .pair .id-col .vsizes .row .k { color: var(--ink-3); }
+    .pair .id-col .vsizes .row .v.orig { color: var(--bad); }
+    .pair .id-col .vsizes .row .v.simp { color: var(--good); }
+    .pair .id-col .vsizes .row .v.save { color: var(--good); font-weight: 600; }
+
+    .pair .col {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-right: 1px solid var(--rule);
+    }
+    .pair .col:last-child { border-right: none; }
+    .pair .col .head { padding: 8px 14px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; color: var(--ink-3); text-transform: uppercase; border-bottom: 1px solid var(--rule); background: var(--bg-card); display: flex; justify-content: space-between; align-items: center; }
+    .pair .col .head .tag { font-family: var(--mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+    .pair .col .head .tag.orig { background: #F0D8C8; color: #82381A; }
+    .pair .col .head .tag.simp { background: #E2EEDC; color: #2F5A2A; }
+    .pair .col .body { flex: 1; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; min-height: 200px; }
+    .pair .col .body .icon-only {
+      display: flex; align-items: center; justify-content: center;
+      padding: 18px;
+      height: 100%;
+      box-sizing: border-box;
+      background: var(--bg-map);
+      border-right: 1px dashed var(--rule);
+    }
+    .pair .col .body .icon-only img { width: 140px; height: 140px; object-fit: contain; }
+    .pair .col .body .marker {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+      padding: 14px;
+      height: 100%;
+      box-sizing: border-box;
+      background: var(--bg-map-figured);
+    }
+    .pair .col .body .marker .lab { font-size: 9px; }
+
+    /* Optional small-size strip below each col */
+    .pair .col .ramp {
+      display: flex; align-items: flex-end; gap: 14px; justify-content: center;
+      padding: 10px 14px 14px;
+      border-top: 1px solid var(--rule);
+      background: var(--bg-card);
+    }
+    .pair .col .ramp .step { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .pair .col .ramp .step .lab { font-size: 9px; }
+
+    /* Compact overview */
+    section.block { padding: 32px 48px; border-bottom: 1px solid var(--rule); }
+    section.block > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 18px; font-family: var(--mono); }
+
+    .overview {
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .overview > .label, .overview > .cell { padding: 10px; border-bottom: 1px solid var(--rule); }
+    .overview > .label { background: #F8F5EE; border-right: 1px solid var(--rule); display: flex; align-items: center; }
+    .overview > .label .latin { font-size: 12px; }
+    .overview > .cell { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--bg-card); border-right: 1px solid var(--rule); }
+    .overview > .cell:last-child { border-right: none; }
+    .overview > .cell.icons img { display: block; }
+    .overview > .cell.markers { background: var(--bg-map); }
+    .overview > .header {
+      background: #F0EBDD;
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      border-bottom: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .overview > .header:last-child { border-right: none; }
+    .overview > .header .tag.orig { background: #F0D8C8; color: #82381A; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .overview > .header .tag.simp { background: #E2EEDC; color: #2F5A2A; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="lab">Sheets:</span>
+    <a href="Icons - Original.html">A · Originals</a>
+    <a href="Icons - Simplified.html">B · Simplified</a>
+    <a href="Icons - Comparison.html" class="active">C · Comparison</a>
+    <a href="Icons - Unified.html">D · Unified</a>
+    <a href="Icons - Squeezed.html">E · Squeezed</a>
+    <a href="Icons - Unified (from Original).html">F · Unified (from original)</a>
+    <a href="Icons - Pipeline.html">★ Pipeline</a>
+  </div>
+
+  <header class="sheet-header">
+    <div class="kicker">Sheet C · Side-by-side</div>
+    <h1>Original vs simplified · icon &amp; marker</h1>
+    <p>
+      Each row shows one species twice. Left column is the as-uploaded SVG; right column is the
+      simplified version. Each column shows the icon at hero size against a map-coloured background,
+      then planted inside a teardrop marker at 56 px, then a small-size ramp underneath. Use this to
+      eyeball any visual difference the simplifier introduced — there shouldn't be one.
+    </p>
+    <div class="pills">
+      <span class="pill dot" id="pillCount"></span>
+      <span class="pill dot">icon-only · same background · same size</span>
+      <span class="pill dot">marker · 56 px teardrop</span>
+      <span class="pill dot">ramp · 32 · 24 · 16 px</span>
+    </div>
+  </header>
+
+  <!-- Quick-scan overview before deep dives -->
+  <section class="block">
+    <h2>Quick scan · all 19 in two columns</h2>
+    <div class="overview" id="overview">
+      <div class="header" style="background:#F8F5EE;"><span>Species</span></div>
+      <div class="header"><span>Original · icons + marker</span><span class="tag orig">orig</span></div>
+      <div class="header"><span>Simplified · icons + marker</span><span class="tag simp">simp</span></div>
+    </div>
+  </section>
+
+  <!-- Detailed per-species cards -->
+  <section class="block">
+    <h2>Per-species detail</h2>
+    <div class="compare-grid" id="compareGrid" style="padding:0;"></div>
+  </section>
+
+  <script src="icons/species-data.js"></script>
+  <script>
+    document.getElementById('pillCount').textContent = SPECIES.length + ' species';
+
+    const orig = (p) => "icons/originals/" + encodeURIComponent(p);
+    const simp = (p) => "icons/simplified/" + encodeURIComponent(p);
+
+    // --- Quick-scan overview ---
+    const overview = document.getElementById('overview');
+    SPECIES.forEach(s => {
+      const sz = SIZES[s.file];
+      overview.insertAdjacentHTML('beforeend', `
+        <div class="label">
+          <div>
+            <div class="latin">${s.latin}</div>
+            <div class="common">${s.de}</div>
+          </div>
+        </div>
+        ${[{src: orig(s.file), tag: 'orig', size: sz.orig}, {src: simp(s.file), tag: 'simp', size: sz.simp}].map(col => `
+          <div class="cell icons" style="background:${col.tag === 'orig' ? '#F0EBDD' : '#E8EBDC'};">
+            <img src="${col.src}" style="width:48px;height:48px;">
+            <img src="${col.src}" style="width:32px;height:32px;">
+            <img src="${col.src}" style="width:24px;height:24px;">
+            <img src="${col.src}" style="width:16px;height:16px;">
+            <div class="pin" style="width:40px;height:50px;margin-left:8px;">
+              <svg class="pin-shape" viewBox="0 0 64 80" width="40" height="50">
+                <path d="M32 1 C15 1 2 14 2 31 C2 48 22 64 32 79 C42 64 62 48 62 31 C62 14 49 1 32 1 Z" fill="#FFFFFF" stroke="#1F1A14" stroke-width="2"/>
+              </svg>
+              <div class="pin-icon" style="width:24px;height:24px;">
+                <img src="${col.src}" style="width:100%;height:100%;object-fit:contain;">
+              </div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-left:auto;">${(col.size/1024).toFixed(1)} KB</span>
+          </div>
+        `).join('')}
+      `);
+    });
+
+    // --- Per-species detail ---
+    const compareGrid = document.getElementById('compareGrid');
+    SPECIES.forEach((s, i) => {
+      const sz = SIZES[s.file];
+      const savedKB = ((sz.orig - sz.simp)/1024).toFixed(1);
+      const pct = (sz.simp/sz.orig*100).toFixed(1);
+      const pinHTML = (src, size) => `
+        <div class="pin" style="width:${size}px;height:${size*1.25}px;">
+          <svg class="pin-shape" viewBox="0 0 64 80" width="${size}" height="${size*1.25}">
+            <path d="M32 1 C15 1 2 14 2 31 C2 48 22 64 32 79 C42 64 62 48 62 31 C62 14 49 1 32 1 Z" fill="#FFFFFF" stroke="#1F1A14" stroke-width="2"/>
+          </svg>
+          <div class="pin-icon" style="width:${size*0.62}px;height:${size*0.62}px;">
+            <img src="${src}" style="width:100%;height:100%;object-fit:contain;">
+          </div>
+        </div>
+      `;
+      compareGrid.insertAdjacentHTML('beforeend', `
+        <div class="pair">
+          <div class="id-col">
+            <div class="num">${(i+1).toString().padStart(2,'0')} / ${SPECIES.length}</div>
+            <div class="latin">${s.latin}</div>
+            <div class="common"><span class="de">${s.de}</span> · ${s.en}</div>
+            <div class="vsizes">
+              <div class="row"><span class="k">orig</span><span class="v orig">${(sz.orig/1024).toFixed(1)} KB</span></div>
+              <div class="row"><span class="k">simp</span><span class="v simp">${(sz.simp/1024).toFixed(1)} KB</span></div>
+              <div class="row"><span class="k">saved</span><span class="v save">−${savedKB} KB</span></div>
+              <div class="row"><span class="k">ratio</span><span class="v save">${pct}%</span></div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="head"><span>Original</span><span class="tag orig">${(sz.orig/1024).toFixed(1)} KB</span></div>
+            <div class="body">
+              <div class="icon-only"><img src="${orig(s.file)}" alt=""></div>
+              <div class="marker">
+                ${pinHTML(orig(s.file), 64)}
+                <span class="lab">marker · 56&nbsp;px</span>
+              </div>
+            </div>
+            <div class="ramp">
+              ${[40,32,24,16].map(px => `
+                <div class="step">
+                  <img src="${orig(s.file)}" style="width:${px}px;height:${px}px;">
+                  <div class="lab">${px}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="head"><span>Simplified</span><span class="tag simp">${(sz.simp/1024).toFixed(1)} KB</span></div>
+            <div class="body">
+              <div class="icon-only"><img src="${simp(s.file)}" alt=""></div>
+              <div class="marker">
+                ${pinHTML(simp(s.file), 64)}
+                <span class="lab">marker · 56&nbsp;px</span>
+              </div>
+            </div>
+            <div class="ramp">
+              ${[40,32,24,16].map(px => `
+                <div class="step">
+                  <img src="${simp(s.file)}" style="width:${px}px;height:${px}px;">
+                  <div class="lab">${px}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `);
+    });
+  </script>
+</body>
+</html>

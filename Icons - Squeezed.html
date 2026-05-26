@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Squeezed mushroom icons — consistency check @ 300 px</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="icons/sheets.css"/>
+  <style>
+    .toolbar {
+      display: flex;
+      gap: 18px;
+      padding: 14px 48px;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: #F8F5EE;
+      font-size: 13px;
+      color: var(--ink-2);
+      flex-wrap: wrap;
+    }
+    .toolbar a { color: var(--ink-2); text-decoration: none; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg-card); }
+    .toolbar a.active { background: var(--ink); color: #F4F1EB; border-color: var(--ink); }
+    .toolbar a:hover { border-color: var(--ink); }
+
+    section.block { padding: 32px 48px; border-bottom: 1px solid var(--rule); }
+    section.block > h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 18px; font-family: var(--mono); }
+
+    /* Recipe — what changed */
+    .recipe {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .recipe .step {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .recipe .step .num { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-bottom: 4px; letter-spacing: 0.08em; }
+    .recipe .step .title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+    .recipe .step .desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
+    .recipe .step .est { font-family: var(--mono); font-size: 10.5px; color: var(--good); margin-top: 8px; }
+
+    /* The 300px consistency grid — the core of this sheet */
+    .grid-300 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .card-300 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .canvas-300 {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #E8DEC4;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    .canvas-300 img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .card-300 .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .card-300 .meta .name { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .card-300 .meta .latin { font-style: italic; font-weight: 600; font-size: 15px; color: var(--ink); }
+    .card-300 .meta .common { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .card-300 .meta .size { font-family: var(--mono); font-size: 11px; color: var(--good); white-space: nowrap; padding: 3px 8px; background: #E2EEDC; border-radius: 4px; font-weight: 600; }
+
+    /* Toggles */
+    .toggle-bar { display: flex; align-items: center; gap: 14px; padding: 16px 48px; background: var(--bg-card); border-bottom: 1px solid var(--rule); font-size: 12px; color: var(--ink-3); font-family: var(--mono); flex-wrap: wrap; }
+    .toggle-bar label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule); background: #FBF9F3; }
+    .toggle-bar label:hover { border-color: var(--ink-3); }
+    .toggle-bar input { cursor: pointer; }
+    body.bg-white .canvas-300 { background: #FFFFFF; }
+    body.bg-flat .canvas-300 { background: #F4F1EB; }
+    body.bg-dark .canvas-300 { background: #2A2520; }
+    body.no-frame .canvas-300 { border-color: transparent; }
+    body.show-grid .canvas-300::before, body.show-grid .canvas-300::after {
+      content: ""; position: absolute; background: rgba(31,26,20,0.18); pointer-events: none; z-index: 1;
+    }
+    body.show-grid .canvas-300::before { left: 50%; top: 6%; bottom: 6%; width: 1px; }
+    body.show-grid .canvas-300::after { top: 50%; left: 6%; right: 6%; height: 1px; }
+
+    /* Pin row — same icon at marker size */
+    .pin-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 16px;
+      padding: 28px 24px;
+      border-radius: 10px;
+      background: var(--bg-map-figured);
+    }
+    .pin-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .pin-cell .lab { text-align: center; line-height: 1.25; max-width: 110px; }
+
+    /* Scale ramp */
+    .scale-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; padding: 22px 24px; background: var(--bg-card); border-radius: 10px; border: 1px solid var(--rule); }
+    .scale-cell { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .scale-cell .ramp { display: flex; align-items: flex-end; gap: 8px; }
+    .scale-cell .ramp .step { display: flex; align-items: center; justify-content: center; background: #E8DEC4; border: 1px solid var(--rule); }
+    .scale-cell .lab { text-align: center; font-size: 10px; line-height: 1.2; color: var(--ink-3); font-family: var(--mono); }
+
+    /* Filesize table */
+    table.sizes { width: 100%; border-collapse: collapse; font-size: 13px; }
+    table.sizes th, table.sizes td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--rule); }
+    table.sizes th { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; background: var(--bg-card); }
+    table.sizes td.num { font-family: var(--mono); text-align: right; white-space: nowrap; min-width: 92px; }
+    .totals td { font-weight: 600; background: #F0EBDD; }
+    .bar { height: 8px; background: #EFE9DA; border-radius: 4px; overflow: hidden; position: relative; }
+    .bar > .o { display: block; height: 100%; background: #C8B89A; opacity: 0.55; position: absolute; top: 0; left: 0; }
+    .bar > .s { display: block; height: 100%; background: #B89C5A; opacity: 0.8; position: absolute; top: 0; left: 0; }
+    .bar > .q { display: block; height: 100%; background: #2F7A3A; position: absolute; top: 0; left: 0; }
+    .bar-cell { width: 240px; }
+    .legend { display: flex; gap: 14px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); margin: 10px 0 16px; flex-wrap: wrap; }
+    .legend .sw { display: inline-block; width: 18px; height: 8px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="lab">Sheets:</span>
+    <a href="Icons - Original.html">A · Originals</a>
+    <a href="Icons - Simplified.html">B · Simplified</a>
+    <a href="Icons - Comparison.html">C · Comparison</a>
+    <a href="Icons - Unified.html">D · Unified</a>
+    <a href="Icons - Squeezed.html" class="active">E · Squeezed</a>
+    <a href="Icons - Unified (from Original).html">F · Unified (from original)</a>
+    <a href="Icons - Pipeline.html">★ Pipeline</a>
+  </div>
+
+  <header class="sheet-header">
+    <div class="kicker">Sheet E · Squeezed set · consistency check @ 300 px</div>
+    <h1>Squeezed icons</h1>
+    <p>
+      Built on top of the unified set. The wrapper <code>&lt;g transform="…"&gt;</code> is baked
+      into each path's coordinates, then everything is rounded to integer precision in the new
+      0&nbsp;–&nbsp;1000 space. Consecutive same-letter commands are merged. Whitespace between
+      letters and digits is dropped. No fidelity loss at icon sizes — 1 unit at 300&nbsp;px = 0.3&nbsp;px,
+      well below pixel resolution.
+    </p>
+    <div class="pills" id="pillSummary"></div>
+
+    <div class="recipe">
+      <div class="step">
+        <div class="num">01</div>
+        <div class="title">Bake the unified transform</div>
+        <div class="desc">Apply each icon's wrapper <code>translate(tx ty) scale(s)</code> directly to every path coordinate. Drop the wrapper <code>&lt;g&gt;</code> — one less DOM node per icon.</div>
+        <div class="est">≈ 60 B / file</div>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div class="title">Integer precision</div>
+        <div class="desc">Round every coordinate to the nearest integer in the new 0–1000 space. Removes the decimal point AND the digit after it from thousands of numbers.</div>
+        <div class="est">≈ 30 % saved</div>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div class="title">Merge consecutive commands</div>
+        <div class="desc"><code>L 5 6 L 7 8 L 9 10</code> → <code>L5 6 7 8 9 10</code>. Same for <code>C</code>, <code>Q</code>, <code>S</code>, <code>T</code>, <code>A</code>. Implicit <code>L</code> after <code>M</code>.</div>
+        <div class="est">≈ 5 % saved</div>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <div class="title">Tight whitespace</div>
+        <div class="desc">No space between a letter and the digit that follows. Negative signs absorb the separator: <code>5 -3</code> → <code>5-3</code>.</div>
+        <div class="est">≈ 3 % saved</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="toggle-bar">
+    <span>Canvas:</span>
+    <label><input type="radio" name="bg" value="" checked> sand</label>
+    <label><input type="radio" name="bg" value="bg-flat"> cream</label>
+    <label><input type="radio" name="bg" value="bg-white"> white</label>
+    <label><input type="radio" name="bg" value="bg-dark"> charcoal</label>
+    <span style="opacity:0.5;">|</span>
+    <label><input type="checkbox" id="t-grid"> centre crosshair</label>
+    <label><input type="checkbox" id="t-noframe"> hide frame</label>
+  </div>
+
+  <section class="block">
+    <h2>All 19 squeezed icons @ 300 px · consistency check</h2>
+    <p style="color: var(--ink-2); font-size: 13px; margin: -8px 0 18px; max-width: 800px;">
+      Each canvas is a 300×300 box. The icon fills it via <code>object-fit: contain</code>, so the
+      square frame doubles as a viewBox check. Use it to spot drift, weight imbalance or any
+      species that breaks the family read.
+    </p>
+    <div class="grid-300" id="grid300"></div>
+  </section>
+
+  <section class="block">
+    <h2>Scale ramp · 96 · 48 · 24 px</h2>
+    <p style="color: var(--ink-2); font-size: 13px; margin: -8px 0 14px;">
+      The same icons stepped down through marker sizes. The integer-precision rounding is invisible
+      at every step.
+    </p>
+    <div class="scale-row" id="scaleRow"></div>
+  </section>
+
+  <section class="block">
+    <h2>Inside a teardrop marker · 56 px pin</h2>
+    <div class="pin-row" id="pinRow"></div>
+  </section>
+
+  <section class="block">
+    <h2>Filesize · original → simplified → squeezed</h2>
+    <div class="legend">
+      <span><span class="sw" style="background:#C8B89A;opacity:0.55;"></span>Original</span>
+      <span><span class="sw" style="background:#B89C5A;opacity:0.8;"></span>Simplified</span>
+      <span><span class="sw" style="background:#2F7A3A;"></span>Squeezed</span>
+    </div>
+    <table class="sizes" id="sizesTable">
+      <thead>
+        <tr>
+          <th style="width:36px;">#</th>
+          <th>Species</th>
+          <th class="num">Original</th>
+          <th class="num">Simplified</th>
+          <th class="num">Squeezed</th>
+          <th class="num">% of orig</th>
+          <th class="bar-cell">Visual</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="icons/species-data.js"></script>
+  <script>
+    const root = (p) => "icons/squeezed/" + encodeURIComponent(p);
+
+    // Summary pill row
+    let totOrig = 0, totSimp = 0, totSq = 0;
+    SPECIES.forEach(s => { totOrig += SIZES[s.file].orig; totSimp += SIZES[s.file].simp; totSq += SIZES[s.file].sq; });
+    document.getElementById('pillSummary').innerHTML = `
+      <span class="pill dot">${SPECIES.length} icons</span>
+      <span class="pill dot">viewBox 1000 × 1000</span>
+      <span class="pill bad">Σ ${(totOrig/1024).toFixed(1)} KB original</span>
+      <span class="pill good">Σ ${(totSq/1024).toFixed(1)} KB squeezed</span>
+      <span class="pill good">${(totSq/totOrig*100).toFixed(1)} % of original · −${((totOrig-totSq)/1024).toFixed(0)} KB</span>
+    `;
+
+    // 300 px grid
+    const grid300 = document.getElementById('grid300');
+    SPECIES.forEach(s => {
+      const sq = SIZES[s.file].sq;
+      grid300.insertAdjacentHTML('beforeend', `
+        <div class="card-300">
+          <div class="canvas-300"><img src="${root(s.file)}" alt="${s.latin}"></div>
+          <div class="meta">
+            <div class="name">
+              <div class="latin">${s.latin}</div>
+              <div class="common">${s.de} · ${s.en}</div>
+            </div>
+            <span class="size">${(sq/1024).toFixed(1)} KB</span>
+          </div>
+        </div>
+      `);
+    });
+
+    // Scale ramp — 96, 48, 24
+    const scaleRow = document.getElementById('scaleRow');
+    SPECIES.forEach(s => {
+      scaleRow.insertAdjacentHTML('beforeend', `
+        <div class="scale-cell">
+          <div class="ramp">
+            ${[96, 48, 24].map(px => `
+              <div class="step" style="width:${px}px;height:${px}px;">
+                <img src="${root(s.file)}" style="width:100%;height:100%;object-fit:contain;">
+              </div>
+            `).join('')}
+          </div>
+          <div class="lab">${s.latin.split(' ').map(w => `<div>${w}</div>`).join('')}</div>
+        </div>
+      `);
+    });
+
+    // Pin row
+    const pinRow = document.getElementById('pinRow');
+    SPECIES.forEach(s => {
+      const size = 56;
+      pinRow.insertAdjacentHTML('beforeend', `
+        <div class="pin-cell">
+          <div class="pin" style="width:${size}px;height:${size*1.25}px;">
+            <svg class="pin-shape" viewBox="0 0 64 80" width="${size}" height="${size*1.25}">
+              <path d="M32 1 C15 1 2 14 2 31 C2 48 22 64 32 79 C42 64 62 48 62 31 C62 14 49 1 32 1 Z" fill="#FFFFFF" stroke="#1F1A14" stroke-width="2"/>
+            </svg>
+            <div class="pin-icon" style="width:${size*0.62}px;height:${size*0.62}px;">
+              <img src="${root(s.file)}" style="width:100%;height:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="lab">${s.latin.split(' ').map(w => `<div>${w}</div>`).join('')}</div>
+        </div>
+      `);
+    });
+
+    // Filesize table
+    const sorted = SPECIES.slice().map(s => ({ s, ...SIZES[s.file] })).sort((a,b) => b.orig - a.orig);
+    const maxOrig = sorted[0].orig;
+    const tbody = document.querySelector('#sizesTable tbody');
+    const fmt = (b) => (b/1024).toFixed(1) + '\u00A0KB';
+    sorted.forEach((row, i) => {
+      const oPct = row.orig/maxOrig*100, sPct = row.simp/maxOrig*100, qPct = row.sq/maxOrig*100;
+      tbody.insertAdjacentHTML('beforeend', `
+        <tr>
+          <td class="num" style="color:var(--ink-3);">${(i+1).toString().padStart(2,'0')}</td>
+          <td><span class="latin">${row.s.latin}</span> <span style="color:var(--ink-3);font-size:11px;">· ${row.s.de}</span></td>
+          <td class="num">${fmt(row.orig)}</td>
+          <td class="num" style="color:#85691F;">${fmt(row.simp)}</td>
+          <td class="num" style="color:var(--good);font-weight:600;">${fmt(row.sq)}</td>
+          <td class="num" style="color:var(--good);font-weight:600;">${(row.sq/row.orig*100).toFixed(1)}%</td>
+          <td class="bar-cell">
+            <div class="bar">
+              <span class="o" style="width:${oPct.toFixed(1)}%;"></span>
+              <span class="s" style="width:${sPct.toFixed(1)}%;"></span>
+              <span class="q" style="width:${qPct.toFixed(1)}%;"></span>
+            </div>
+          </td>
+        </tr>
+      `);
+    });
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr class="totals">
+        <td></td>
+        <td>Total · ${SPECIES.length} species</td>
+        <td class="num">${fmt(totOrig)}</td>
+        <td class="num" style="color:#85691F;">${fmt(totSimp)}</td>
+        <td class="num" style="color:var(--good);">${fmt(totSq)}</td>
+        <td class="num" style="color:var(--good);">${(totSq/totOrig*100).toFixed(1)}%</td>
+        <td class="bar-cell"><div class="bar"><span class="o" style="width:100%;"></span><span class="s" style="width:${(totSimp/totOrig*100).toFixed(1)}%;"></span><span class="q" style="width:${(totSq/totOrig*100).toFixed(1)}%;"></span></div></td>
+      </tr>
+    `);
+
+    // Toggles
+    document.querySelectorAll('input[name="bg"]').forEach(r => {
+      r.addEventListener('change', () => {
+        document.body.classList.remove('bg-flat', 'bg-white', 'bg-dark');
+        const v = document.querySelector('input[name="bg"]:checked').value;
+        if (v) document.body.classList.add(v);
+      });
+    });
+    document.getElementById('t-grid').addEventListener('change', e => {
+      document.body.classList.toggle('show-grid', e.target.checked);
+    });
+    document.getElementById('t-noframe').addEventListener('change', e => {
+      document.body.classList.toggle('no-frame', e.target.checked);
+    });
+  </script>
+</body>
+</html>
