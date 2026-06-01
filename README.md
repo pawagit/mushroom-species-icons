@@ -6,63 +6,70 @@ This project maintains a set of habitus-faithful mushroom SVG icons for use as f
 
 ## Gallery
 
-<p align="center"><em>39 species — click any icon to open the full squeezed-set sheet.</em></p>
+<p align="center"><em>41 species + 3 generic icons — click any icon to open the full squeezed-set sheet.</em></p>
 
 <table align="center">
   <tr>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/agaricus%20arvensis.svg"          width="100" alt="Agaricus arvensis"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/amanita%20caesarea.svg"           width="100" alt="Amanita caesarea"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/amanita%20muscaria.svg"           width="100" alt="Amanita muscaria"></a></td>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/amanita%20phalloides.svg"         width="100" alt="Amanita phalloides"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/armillaria%20mellea.svg"          width="100" alt="Armillaria mellea"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/boletus%20edulis.svg"             width="100" alt="Boletus edulis"></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/boletus%20edulis.svg"             width="100" alt="Boletus edulis"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/calocybe%20gambosa.svg"           width="100" alt="Calocybe gambosa"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/calvatia%20gigantea.svg"          width="100" alt="Calvatia gigantea"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/cantharellus%20cibarius.svg"      width="100" alt="Cantharellus cibarius"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/cantharellus%20cornucopoides.svg" width="100" alt="Craterellus cornucopioides"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/cantharellus%20lutescens.svg"     width="100" alt="Cantharellus lutescens"></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/cantharellus%20lutescens.svg"     width="100" alt="Cantharellus lutescens"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/cantharellus%20tubaeformis.svg"   width="100" alt="Cantharellus tubaeformis"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/chalciporus%20piperatus.svg"      width="100" alt="Chalciporus piperatus"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/clitocybe%20geotropa.svg"         width="100" alt="Clitocybe geotropa"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/clitopilus%20prunulus.svg"        width="100" alt="Clitopilus prunulus"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/coprinus%20comatus.svg"           width="100" alt="Coprinus comatus"></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/coprinus%20comatus.svg"           width="100" alt="Coprinus comatus"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/cortinarius%20caperatus.svg"      width="100" alt="Cortinarius caperatus"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/cortinarius%20praestans.svg"      width="100" alt="Cortinarius praestans"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/disciotis%20venosa.svg"           width="100" alt="Disciotis venosa"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/gomphidius%20glutinosus.svg"      width="100" alt="Gomphidius glutinosus"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/gomphus%20clavatus.svg"           width="100" alt="Gomphus clavatus"></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/gomphus%20clavatus.svg"           width="100" alt="Gomphus clavatus"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/hericium%20erinaceum.svg"         width="100" alt="Hericium erinaceum"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/hydnum%20repandum.svg"            width="100" alt="Hydnum repandum"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/hygrocybe.svg"                    width="100" alt="Hygrocybe spp."></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/hypholoma%20capnoides.svg"        width="100" alt="Hypholoma capnoides"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/imleria%20badia.svg"              width="100" alt="Imleria badia"></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/imleria%20badia.svg"              width="100" alt="Imleria badia"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/kuehneromyces%20mutabilis.svg"    width="100" alt="Kuehneromyces mutabilis"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/lactarius%20deliciosus.svg"       width="100" alt="Lactarius deliciosus"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/leccinum%20aurantiacum.svg"       width="100" alt="Leccinum aurantiacum"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/lycoperdon%20perlatum.svg"        width="100" alt="Lycoperdon perlatum"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/lyophyllum%20decastes.svg"        width="100" alt="Lyophyllum decastes"></a></td>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/leccinum%20scabrum.svg"           width="100" alt="Leccinum scabrum"></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/lycoperdon%20perlatum.svg"        width="100" alt="Lycoperdon perlatum"></a></td>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/lyophyllum%20decastes.svg"        width="100" alt="Lyophyllum decastes"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/macrolepiota%20procera.svg"       width="100" alt="Macrolepiota procera"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/morchella%20elata.svg"            width="100" alt="Morchella elata"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/morchella%20esculenta.svg"        width="100" alt="Morchella esculenta"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/neoboletus%20luridiformis.svg"    width="100" alt="Neoboletus luridiformis"></a></td>
-    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/pleurotus%20ostreatus.svg"        width="100" alt="Pleurotus ostreatus"></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/neoboletus%20luridiformis.svg"    width="100" alt="Neoboletus luridiformis"></a></td>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/pleurotus%20ostreatus.svg"        width="100" alt="Pleurotus ostreatus"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/psilocybe%20semilanceata.svg"     width="100" alt="Psilocybe semilanceata"></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/russula.svg"                      width="100" alt="Russula spp."></a></td>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/sarcodon%20imbricatus.svg"        width="100" alt="Sarcodon imbricatus"></a></td>
+  </tr>
+  <tr>
     <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/sparassis%20crispa.svg"           width="100" alt="Sparassis crispa"></a></td>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/generic-species.svg"              width="100" alt="Generic species"></a></td>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/unknown-species.svg"              width="100" alt="Unknown species"></a></td>
+    <td align="center"><a href="Icons%20-%20Squeezed.html"><img src="icons/squeezed/nullfund.svg"                     width="100" alt="No mushrooms (Nullfund)"></a></td>
   </tr>
 </table>
 

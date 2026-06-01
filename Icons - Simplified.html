@@ -147,7 +147,7 @@
   </section>
 
   <section class="block">
-    <h2>Gallery · simplified · all 19 at hero size</h2>
+    <h2>Gallery · simplified · all <span id="galleryCount"></span> at hero size</h2>
     <div class="gallery" id="gallery"></div>
   </section>
 
@@ -158,22 +158,23 @@
 
   <script src="icons/species-data.js"></script>
   <script>
+    document.getElementById('galleryCount').textContent = ALL_ICONS.length;
     const root = (p) => "icons/simplified/" + encodeURIComponent(p);
 
     // Summary pills
     let totOrig = 0, totSimp = 0;
-    SPECIES.forEach(s => { totOrig += SIZES[s.file].orig; totSimp += SIZES[s.file].simp; });
+    ALL_ICONS.forEach(s => { totOrig += SIZES[s.file].orig; totSimp += SIZES[s.file].simp; });
     const savedBytes = totOrig - totSimp;
     const savedPct = (savedBytes / totOrig * 100).toFixed(1);
     document.getElementById('pillSummary').innerHTML = `
-      <span class="pill dot">${SPECIES.length} species</span>
+      <span class="pill dot">${SPECIES.length} species · ${MARKERS.length} markers</span>
       <span class="pill bad">Σ ${(totOrig/1024).toFixed(1)} KB before</span>
       <span class="pill good">Σ ${(totSimp/1024).toFixed(1)} KB after</span>
       <span class="pill good">−${(savedBytes/1024).toFixed(1)} KB · ${savedPct}% smaller</span>
     `;
 
     // Comparison table (sorted desc by original)
-    const sorted = SPECIES.slice().map(s => {
+    const sorted = ALL_ICONS.slice().map(s => {
       const sz = SIZES[s.file];
       return { s, orig: sz.orig, simp: sz.simp, saved: sz.orig - sz.simp, pct: (sz.simp/sz.orig*100) };
     }).sort((a,b) => b.orig - a.orig);
@@ -203,7 +204,7 @@
     tbody.insertAdjacentHTML('beforeend', `
       <tr class="totals">
         <td></td>
-        <td>Total · ${SPECIES.length} species</td>
+        <td>Total · ${ALL_ICONS.length} icons</td>
         <td class="num">${(totOrig/1024).toFixed(1)}\u00A0KB</td>
         <td class="num" style="color:var(--good);">${(totSimp/1024).toFixed(1)}\u00A0KB</td>
         <td class="num">${(savedBytes/1024).toFixed(1)}\u00A0KB</td>
@@ -214,7 +215,7 @@
 
     // Gallery
     const gallery = document.getElementById('gallery');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const o = SIZES[s.file].orig;
       const sz = SIZES[s.file].simp;
       const pct = (sz/o*100).toFixed(1);
@@ -232,7 +233,7 @@
 
     // Pin row
     const pinRow = document.getElementById('pinRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const size = 56;
       pinRow.insertAdjacentHTML('beforeend', `
         <div class="pin-cell">

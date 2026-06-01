@@ -187,10 +187,10 @@
     const root = (p) => "icons/unified/" + encodeURIComponent(p);
 
     // Frame grid
-    document.getElementById('pillCount').textContent = SPECIES.length + ' icons';
-    document.getElementById('stackedCount').textContent = SPECIES.length;
+    document.getElementById('pillCount').textContent = ALL_ICONS.length + ' icons';
+    document.getElementById('stackedCount').textContent = ALL_ICONS.length;
     const frameGrid = document.getElementById('frameGrid');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       frameGrid.insertAdjacentHTML('beforeend', `
         <div class="frame">
           <div class="canvas">
@@ -208,15 +208,15 @@
       `);
     });
 
-    // Alignment overlay — stack all 19 at 18% opacity
+    // Alignment overlay — stack all icons at 18% opacity
     const stack = document.getElementById('stack');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       stack.insertAdjacentHTML('beforeend', `<img src="${root(s.file)}" alt="">`);
     });
 
     // Scale parity grid
     const scaleRow = document.getElementById('scaleRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       scaleRow.insertAdjacentHTML('beforeend', `
         <div class="scale-cell">
           <div class="box"><img src="${root(s.file)}" alt="${s.latin}"></div>
@@ -227,7 +227,7 @@
 
     // Pin row
     const pinRow = document.getElementById('pinRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const size = 56;
       pinRow.insertAdjacentHTML('beforeend', `
         <div class="pin-cell">

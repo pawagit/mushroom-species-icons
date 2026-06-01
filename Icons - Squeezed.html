@@ -193,7 +193,7 @@
   </div>
 
   <section class="block">
-    <h2>All 39 squeezed icons @ 300 px · consistency check</h2>
+    <h2>All <span id="countInline"></span> squeezed icons @ 300 px · consistency check</h2>
     <p style="color: var(--ink-2); font-size: 13px; margin: -8px 0 18px; max-width: 800px;">
       Each canvas is a 300×300 box. The icon fills it via <code>object-fit: contain</code>, so the
       square frame doubles as a viewBox check. Use it to spot drift, weight imbalance or any
@@ -245,18 +245,19 @@
 
     // Summary pill row
     let totOrig = 0, totSimp = 0, totSq = 0;
-    SPECIES.forEach(s => { totOrig += SIZES[s.file].orig; totSimp += SIZES[s.file].simp; totSq += SIZES[s.file].sq; });
+    ALL_ICONS.forEach(s => { totOrig += SIZES[s.file].orig; totSimp += SIZES[s.file].simp; totSq += SIZES[s.file].sq; });
     document.getElementById('pillSummary').innerHTML = `
-      <span class="pill dot">${SPECIES.length} icons</span>
+      <span class="pill dot">${ALL_ICONS.length} icons</span>
       <span class="pill dot">viewBox 1000 × 1000</span>
       <span class="pill bad">Σ ${(totOrig/1024).toFixed(1)} KB original</span>
       <span class="pill good">Σ ${(totSq/1024).toFixed(1)} KB squeezed</span>
       <span class="pill good">${(totSq/totOrig*100).toFixed(1)} % of original · −${((totOrig-totSq)/1024).toFixed(0)} KB</span>
     `;
+    document.getElementById('countInline').textContent = ALL_ICONS.length;
 
     // 300 px grid
     const grid300 = document.getElementById('grid300');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const sq = SIZES[s.file].sq;
       grid300.insertAdjacentHTML('beforeend', `
         <div class="card-300">
@@ -274,7 +275,7 @@
 
     // Scale ramp — 96, 48, 24
     const scaleRow = document.getElementById('scaleRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       scaleRow.insertAdjacentHTML('beforeend', `
         <div class="scale-cell">
           <div class="ramp">
@@ -291,7 +292,7 @@
 
     // Pin row
     const pinRow = document.getElementById('pinRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const size = 56;
       pinRow.insertAdjacentHTML('beforeend', `
         <div class="pin-cell">
@@ -309,7 +310,7 @@
     });
 
     // Filesize table
-    const sorted = SPECIES.slice().map(s => ({ s, ...SIZES[s.file] })).sort((a,b) => b.orig - a.orig);
+    const sorted = ALL_ICONS.slice().map(s => ({ s, ...SIZES[s.file] })).sort((a,b) => b.orig - a.orig);
     const maxOrig = sorted[0].orig;
     const tbody = document.querySelector('#sizesTable tbody');
     const fmt = (b) => (b/1024).toFixed(1) + '\u00A0KB';
@@ -336,7 +337,7 @@
     tbody.insertAdjacentHTML('beforeend', `
       <tr class="totals">
         <td></td>
-        <td>Total · ${SPECIES.length} species</td>
+        <td>Total · ${ALL_ICONS.length} icons</td>
         <td class="num">${fmt(totOrig)}</td>
         <td class="num" style="color:#85691F;">${fmt(totSimp)}</td>
         <td class="num" style="color:var(--good);">${fmt(totSq)}</td>

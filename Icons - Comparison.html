@@ -152,7 +152,7 @@
 
   <!-- Quick-scan overview before deep dives -->
   <section class="block">
-    <h2>Quick scan · all 19 in two columns</h2>
+    <h2>Quick scan · all <span id="quickCount"></span> in two columns</h2>
     <div class="overview" id="overview">
       <div class="header" style="background:#F8F5EE;"><span>Species</span></div>
       <div class="header"><span>Original · icons + marker</span><span class="tag orig">orig</span></div>
@@ -168,14 +168,15 @@
 
   <script src="icons/species-data.js"></script>
   <script>
-    document.getElementById('pillCount').textContent = SPECIES.length + ' species';
+    document.getElementById('pillCount').textContent = SPECIES.length + ' species · ' + MARKERS.length + ' markers';
+    document.getElementById('quickCount').textContent = ALL_ICONS.length;
 
     const orig = (p) => "icons/originals/" + encodeURIComponent(p);
     const simp = (p) => "icons/simplified/" + encodeURIComponent(p);
 
     // --- Quick-scan overview ---
     const overview = document.getElementById('overview');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const sz = SIZES[s.file];
       overview.insertAdjacentHTML('beforeend', `
         <div class="label">
@@ -206,7 +207,7 @@
 
     // --- Per-species detail ---
     const compareGrid = document.getElementById('compareGrid');
-    SPECIES.forEach((s, i) => {
+    ALL_ICONS.forEach((s, i) => {
       const sz = SIZES[s.file];
       const savedKB = ((sz.orig - sz.simp)/1024).toFixed(1);
       const pct = (sz.simp/sz.orig*100).toFixed(1);
@@ -223,7 +224,7 @@
       compareGrid.insertAdjacentHTML('beforeend', `
         <div class="pair">
           <div class="id-col">
-            <div class="num">${(i+1).toString().padStart(2,'0')} / ${SPECIES.length}</div>
+            <div class="num">${(i+1).toString().padStart(2,'0')} / ${ALL_ICONS.length}</div>
             <div class="latin">${s.latin}</div>
             <div class="common"><span class="de">${s.de}</span> · ${s.en}</div>
             <div class="vsizes">

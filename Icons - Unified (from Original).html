@@ -159,7 +159,7 @@
     <div class="text">
       <h2>Alignment overlay</h2>
       <p>
-        All 19 unified icons stacked on the same square at 18 % opacity, multiplied. Tall species
+        All <span id="stackedCount"></span> unified icons stacked on the same square at 18 % opacity, multiplied. Tall species
         like <i>Coprinus comatus</i> and <i>Psilocybe semilanceata</i> use the vertical extent;
         wide species like <i>Calvatia gigantea</i> and <i>Sparassis crispa</i> reach the horizontal edges.
         Drift from centre would show as one-sided density — none should be visible.
@@ -191,12 +191,13 @@
 
     // Frame grid
     const frameGrid = document.getElementById('frameGrid');
-    const sizesO = Object.fromEntries(SPECIES.map(s => [s.file, SIZES[s.file].uo]));
+    const sizesO = Object.fromEntries(ALL_ICONS.map(s => [s.file, SIZES[s.file].uo]));
     // Total for the F-set pill
-    const totalUO = SPECIES.reduce((a, s) => a + SIZES[s.file].uo, 0);
-    document.getElementById('pillCount').textContent = SPECIES.length + ' icons';
+    const totalUO = ALL_ICONS.reduce((a, s) => a + SIZES[s.file].uo, 0);
+    document.getElementById('pillCount').textContent = ALL_ICONS.length + ' icons';
     document.getElementById('pillTotalUO').textContent = 'Σ ' + (totalUO/1024/1024).toFixed(2) + ' MB';
-    SPECIES.forEach(s => {
+    document.getElementById('stackedCount').textContent = ALL_ICONS.length;
+    ALL_ICONS.forEach(s => {
       const sz = sizesO[s.file];
       frameGrid.insertAdjacentHTML('beforeend', `
         <div class="frame">
@@ -215,15 +216,15 @@
       `);
     });
 
-    // Alignment overlay — stack all 19 at 18% opacity
+    // Alignment overlay — stack all icons at 18% opacity
     const stack = document.getElementById('stack');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       stack.insertAdjacentHTML('beforeend', `<img src="${root(s.file)}" alt="">`);
     });
 
     // Scale parity grid
     const scaleRow = document.getElementById('scaleRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       scaleRow.insertAdjacentHTML('beforeend', `
         <div class="scale-cell">
           <div class="box"><img src="${root(s.file)}" alt="${s.latin}"></div>
@@ -234,7 +235,7 @@
 
     // Pin row
     const pinRow = document.getElementById('pinRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const size = 56;
       pinRow.insertAdjacentHTML('beforeend', `
         <div class="pin-cell">

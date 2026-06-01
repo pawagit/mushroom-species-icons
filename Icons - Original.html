@@ -85,7 +85,7 @@
   </div>
 
   <header class="sheet-header">
-    <div class="kicker">Sheet A · <span id="countKicker"></span> species</div>
+    <div class="kicker">Sheet A · <span id="countKicker"></span> icons</div>
     <h1>Original SVG icons</h1>
     <p>
       The full as-uploaded icon set. Each SVG is a multi-path silhouette traced from a reference photo,
@@ -102,7 +102,7 @@
   </header>
 
   <section class="block">
-    <h2>Gallery · all 19 at hero size</h2>
+    <h2>Gallery · all <span id="galleryCount"></span> at hero size</h2>
     <div class="gallery" id="gallery"></div>
   </section>
 
@@ -138,14 +138,15 @@
     const root = (p) => "icons/originals/" + encodeURIComponent(p);
 
     // Count labels
-    document.getElementById('countKicker').textContent = SPECIES.length;
-    document.getElementById('pillCount').textContent = SPECIES.length + ' species';
-    const _totalOrig = SPECIES.reduce((a, s) => a + SIZES[s.file].orig, 0);
+    document.getElementById('countKicker').textContent = ALL_ICONS.length;
+    document.getElementById('pillCount').textContent = SPECIES.length + ' species · ' + MARKERS.length + ' markers';
+    document.getElementById('galleryCount').textContent = ALL_ICONS.length;
+    const _totalOrig = ALL_ICONS.reduce((a, s) => a + SIZES[s.file].orig, 0);
     document.getElementById('pillTotalOrig').textContent = 'Σ ' + (_totalOrig/1024/1024).toFixed(2) + ' MB';
 
     // Gallery
     const gallery = document.getElementById('gallery');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const sz = SIZES[s.file].orig;
       gallery.insertAdjacentHTML('beforeend', `
         <div class="tile">
@@ -161,7 +162,7 @@
 
     // Pin row — 56px pins
     const pinRow = document.getElementById('pinRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       const size = 56;
       pinRow.insertAdjacentHTML('beforeend', `
         <div class="pin-cell">
@@ -180,7 +181,7 @@
 
     // Size ramp
     const rampRow = document.getElementById('rampRow');
-    SPECIES.forEach(s => {
+    ALL_ICONS.forEach(s => {
       rampRow.insertAdjacentHTML('beforeend', `
         <div class="ramp">
           <div class="name">${s.latin}</div>
@@ -197,7 +198,7 @@
     });
 
     // Filesize table — sorted desc
-    const sorted = SPECIES.slice().map(s => ({ s, sz: SIZES[s.file].orig })).sort((a, b) => b.sz - a.sz);
+    const sorted = ALL_ICONS.slice().map(s => ({ s, sz: SIZES[s.file].orig })).sort((a, b) => b.sz - a.sz);
     const maxSz = sorted[0].sz;
     const tbody = document.querySelector('#sizesTable tbody');
     let total = 0;
@@ -217,7 +218,7 @@
     tbody.insertAdjacentHTML('beforeend', `
       <tr class="totals">
         <td></td>
-        <td>Total · ${SPECIES.length} species</td>
+        <td>Total · ${ALL_ICONS.length} icons</td>
         <td></td>
         <td class="num">${total.toLocaleString()}</td>
         <td class="num">${(total/1024).toFixed(1)} KB</td>
